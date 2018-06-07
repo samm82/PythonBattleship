@@ -17,6 +17,13 @@ def makeGrid(s):
     boatPos = []
     x, y = r.randint(0,5), r.randint(0,5)
     boatPos.append((x, y))
+    orient, start = boatRandom()
+    print(orient, start)
     grid = []
+
+def boatRandom():
+    orient, start = r.choice(['v', 'h', 'dl', 'dr']), r.randint(1,3)
+    return orient, start
+    
 
 main()
