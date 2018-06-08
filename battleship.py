@@ -43,6 +43,7 @@ def guess(size, attempts, hits, answer, blank):
                     print("ERROR") #should never run, but just in case
                 attempts -= 1
         if hits == 3:
+            display(blank)
             print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
             again()
     display(blank)
