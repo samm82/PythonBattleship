@@ -14,4 +14,10 @@ def play():
     size = 5
     answer = r.choice(a.answerGen(size))
 
+def display(lst):
+    for line in lst:
+        for i in line:
+            print(i, end=' ')
+        print()
+
 main()
