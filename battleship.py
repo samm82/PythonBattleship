@@ -21,15 +21,28 @@ def guess(size, attempts, answer, blank):
         display(blank)
         print("You have %s attempts left." % attempts)
         if attempts == 10:
-            g = input("Enter your guess (eg. D2): ")
+            g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
         else:
             g = input("Enter your guess: ")
         if g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']) or (len(g)<2):
             print("\nINVALID GUESS. Try again.\n")
             guess(size, attempts, answer, blank)
         else:
-            print("wip")#work in progess
-        
+            spot = guessIdentify(g)
+
+def guessIdentify(g):
+    guessLocation = [0, 0] #default is A1
+    if g[0].upper() == 'B':
+        guessLocation[0] = 1
+    elif g[0].upper() == 'C':
+        guessLocation[0] = 2
+    elif g[0].upper() == 'D':
+        guessLocation[0] = 3
+    else:
+        guessLocation[0] = 4
+    guessLocation = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
+    return guessLocation
+    
 
 def display(lst):
     for line in lst:
