@@ -11,8 +11,25 @@ def main():
         raise SystemExit
 
 def play():
-    size = 5
+    size, attempts = 5, 10
     answer = r.choice(a.answerGen(size))
+    guess(size, attempts, answer)
+
+def guess(size, attempts, answer):
+    blank = [[], ['   A', 'B', 'C', 'D', 'E'], [], ['1 ','.', '.' ,'.', '.', '.'], ['2 ', '.', '.' ,'.', '.', '.'], ['3 ', '.', '.' ,'.', '.', '.'], ['4 ', '.', '.' ,'.', '.', '.'], ['5 ', '.', '.' ,'.', '.', '.'], []]
+    while attempts != 0:
+        display(blank)
+        print("You have %s attempts left." % attempts)
+        if attempts == 10:
+            g = input("Enter your guess (eg. D2): ")
+        else:
+            g = input("Enter your guess: ")
+        if g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
+            print("\nInvalid guess. Try again.\n")
+            guess(size, attempts, answer)
+        else:
+            print("wip")#work in progess
+        
 
 def display(lst):
     for line in lst:
