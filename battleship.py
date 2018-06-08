@@ -28,8 +28,7 @@ def guess(size, attempts, hits, answer, blank):
             print("\nINVALID GUESS. Try again.\n")
             guess(size, attempts, hits, answer, blank)
         else:
-            spot = guessIdentify(g)
-            x, y = spot[0], spot[1]
+            x, y = guessIdentify(g)
             if blank[y+3][x+1] != '.': # to navigate "filler" text for display to work properly
                 print("\nYou already guessed here. Try again.\n")
                 guess(size, attempts, hits, answer, blank)
@@ -70,7 +69,7 @@ def guessIdentify(g):
         guessLocation[0] = 4
     #else: not needed - default is 0
     guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
-    return guessLocation
+    return guessLocation[0], guessLocation[1]
     
 def again():
     if input("\nPlay again? ")[0].lower() == 'y':
