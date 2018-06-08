@@ -13,10 +13,10 @@ def main():
 def play():
     size, attempts = 5, 10
     answer = r.choice(a.answerGen(size))
-    guess(size, attempts, answer)
-
-def guess(size, attempts, answer):
     blank = [[], ['   A', 'B', 'C', 'D', 'E'], [], ['1 ','.', '.' ,'.', '.', '.'], ['2 ', '.', '.' ,'.', '.', '.'], ['3 ', '.', '.' ,'.', '.', '.'], ['4 ', '.', '.' ,'.', '.', '.'], ['5 ', '.', '.' ,'.', '.', '.'], []]
+    guess(size, attempts, answer, blank)
+
+def guess(size, attempts, answer, blank):
     while attempts != 0:
         display(blank)
         print("You have %s attempts left." % attempts)
@@ -24,9 +24,9 @@ def guess(size, attempts, answer):
             g = input("Enter your guess (eg. D2): ")
         else:
             g = input("Enter your guess: ")
-        if g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
-            print("\nInvalid guess. Try again.\n")
-            guess(size, attempts, answer)
+        if g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']) or (len(g)<2):
+            print("\nINVALID GUESS. Try again.\n")
+            guess(size, attempts, answer, blank)
         else:
             print("wip")#work in progess
         
