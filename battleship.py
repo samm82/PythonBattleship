@@ -13,7 +13,7 @@ def main():
 
 def play():
     size, attempts, hits = 5, 10, 0
-    answer = r.choice(a.answerGen(size))
+    answer = r.choice(aT.tenGen(size))
     blank = [[], ['   A', 'B', 'C', 'D', 'E'], [], ['1 ','.', '.' ,'.', '.', '.'], ['2 ', '.', '.' ,'.', '.', '.'], ['3 ', '.', '.' ,'.', '.', '.'], ['4 ', '.', '.' ,'.', '.', '.'], ['5 ', '.', '.' ,'.', '.', '.'], []]
     guess(size, attempts, hits, answer, blank)
 

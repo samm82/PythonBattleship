@@ -1,4 +1,4 @@
-def answerGen(s):
+def tenGen(s):
     gridList = []
     for i in range(s):
         for j in range(s):
