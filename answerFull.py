@@ -28,6 +28,21 @@ def display(lst):
             print(i, end=' ')
         print()
 
+def twoLong(s):
+    gL = []
+    for x in range(s):
+        for y in range(s):
+            grid = blankGrid()
+            if x+1 < s and 'X' not in [x, x+1]: 
+                grid[x][y], grid[x+1][y] = 'X', 'X'
+                gL.append(grid)
+            grid = blankGrid()
+            if y+1 < s and 'X' not in [y, y+1]:
+                grid[x][y], grid[x][y+1] = 'X', 'X'
+                gL.append(grid)
+    display(r.choice(gL))
+    #return r.choice(gL)
+
 def threeLong(s):
     gL = []
     for x in range(s):
@@ -43,7 +58,7 @@ def threeLong(s):
     display(r.choice(gL))
     #return r.choice(gL)
 
-threeLong(10)
+twoLong(10)
 
 
 
