@@ -55,15 +55,15 @@ def guess(attempts, hits, answer, blank):
             again()
     display(blank)
     print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
-    print("The boat was here:\n")
-    for i in range(5):
-        for j in range(5):
+    print("The boats were here:\n")
+    for i in range(10):
+        for j in range(10):
             if answer[i][j] == "X":
                 blank[j+3][i+1] = answer[i][j]
             else:
                 continue
     display(blank)
-    again()
+    input("Press enter to go back to the menu.")
 
 def guessIdentify(g):
     guessLocation = [0, 9] #default is A10
@@ -88,7 +88,4 @@ def guessIdentify(g):
     #else: not needed - default is 0
     if len(g) != 3:
         guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
-    print(guessLocation)
     return guessLocation[0], guessLocation[1]
-
-play()
