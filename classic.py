@@ -18,9 +18,11 @@ def play():
              ['9 ', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'],
              ['10', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'],
              []]
-    guess(attempts, hits, answer, blank)
+    patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk = False, False, False, False, False #initializes for checkBoats
+    checkList = [patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk]
+    guess(attempts, hits, answer, blank, checkList)
 
-def guess(attempts, hits, answer, blank):
+def guess(attempts, hits, answer, blank, cL):
     while attempts != 0:
         display(blank)
         print("You have %s attempts left." % attempts)
@@ -33,12 +35,12 @@ def guess(attempts, hits, answer, blank):
             print(blank)
         elif (len(g)<2) or (g[0].upper() not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) or (g[1] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']):
             print("\nINVALID GUESS. Try again.\n")
-            guess(attempts, hits, answer, blank)
+            guess(attempts, hits, answer, blank, cL)
         else:
             x, y = guessIdentify(g)
         if blank[y+3][x+1] != '.': # to navigate "filler" text for display to work properly
             print("\nYou already guessed here. Try again.\n")
-            guess(attempts, hits, answer, blank)
+            guess(attempts, hits, answer, blank, cL)
         else:
             blank[y+3][x+1] = answer[x][y]
             if answer[x][y] == "O":
@@ -46,6 +48,7 @@ def guess(attempts, hits, answer, blank):
             elif answer[x][y] == "X":
                 print("\nHH  HH IIIIII TTTTTT !!\nHH  HH   II     TT   !!\nHHHHHH   II     TT   !!\nHH  HH   II     TT   !!\nHH  HH   II     TT     \nHH  HH IIIIII   TT   !!\n")
                 hits += 1
+                checkBoats(answer[-1], [x, y], cL)
             else:
                 print("ERROR") #should never run, but just in case
             attempts -= 1
@@ -64,6 +67,31 @@ def guess(attempts, hits, answer, blank):
                 continue
     display(blank)
     input("Press enter to go back to the menu.")
+
+def checkBoats(boats, guess, cL):
+    for i in boats:
+        if guess in i:
+            i.remove(guess)
+    if not cL[0]:
+        if boats[0] == []:
+            print("Patrol boat sunk!")
+            cL[0] = True
+    if not cL[1]:
+        if boats[1] == []:
+            print("Destroyer sunk!")
+            cL[1] = True
+    if not cL[2]:
+        if boats[2] == []:
+            print("Submarine sunk!")
+            cL[2] = True
+    if not cL[3]:
+        if boats[3] == []:
+            print("Battleship sunk!")
+            cL[3] = True
+    if not cL[4]:
+        if boats[4] == []:
+            print("Aircraft carrier sunk!")
+            cL[4] = True
 
 def guessIdentify(g):
     guessLocation = [0, 9] #default is A10

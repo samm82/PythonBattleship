@@ -27,7 +27,6 @@ def fullGen():
     grid4 = fourLong(grid3)
     grid5 = fiveLong(grid4)
     grid5[-1] = [grid5[-1][0:2], grid5[-1][2:5], grid5[-1][5:8], grid5[-1][8:12], grid5[-1][12:]]
-    print(grid5)
     return grid5
 
 def twoLong():
