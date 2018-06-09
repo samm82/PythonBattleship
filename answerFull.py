@@ -22,11 +22,8 @@ def display(lst):
 
 def fullGen():
     grid1 = twoLong()
-    print(grid1)
     grid2 = threeLong(grid1)
-    display(grid2)
     grid3 = threeLong(grid2)
-    display(grid3)
 
 def twoLong():
     gridList = []
@@ -74,7 +71,7 @@ def horizontalThree(x, y, gL, g):
     grid = initialize(g[-1])
     if x+2 < 10 and x+1 < 10 and not any(i in [[x, y], [x+1, y], [x+2, y]] for i in grid[-1]): 
         grid[x][y], grid[x+1][y], grid[x+2][y] = 'X', 'X', 'X'
-        grid[-1] = grid[-1]+[[x, y], [x+1, y], [x+2, y]]
+        grid[-1] = grid[-1]+[[x, y], [x+1, y], [x+2, y]] #adds "X" coordinates to previous list
         gL.append(grid)
     return gL
 
@@ -82,7 +79,7 @@ def verticalThree(x, y, gL, g):
     grid = initialize(g[-1])
     if y+2 < 10 and y+1 < 10 and not any(i in [[x, y], [x, y+1], [x, y+2]] for i in grid[-1]): 
         grid[x][y], grid[x][y+1], grid[x][y+2] = 'X', 'X', 'X'
-        grid[-1] = grid[-1]+[[x, y], [x, y+1], [x, y+2]]
+        grid[-1] = grid[-1]+[[x, y], [x, y+1], [x, y+2]] #adds "X" coordinates to previous list
         gL.append(grid)
     return gL    
 
