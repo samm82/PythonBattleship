@@ -13,13 +13,6 @@ def blankGrid():
              ['O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O']]
     return blank
 
-#FOR TESTING
-def display(lst):
-    for line in lst:
-        for i in line:
-            print(i, end=' ')
-        print()
-
 def initialize(coords):
     grid = blankGrid()
     for coord in coords:
@@ -32,7 +25,8 @@ def fullGen():
     grid2 = threeLong(grid1)
     grid3 = threeLong(grid2)
     grid4 = fourLong(grid3)
-    display(grid4)
+    grid5 = fiveLong(grid4)
+    return grid5
 
 def twoLong():
     gridList = []
@@ -56,6 +50,14 @@ def fourLong(grid):
         for j in range(10):
             gridList = horizontalFour(i, j, gridList, grid)
             gridList = verticalFour(i, j, gridList, grid)
+    return r.choice(gridList)
+
+def fiveLong(grid):
+    gridList = []
+    for i in range(10):
+        for j in range(10):
+            gridList = horizontalFive(i, j, gridList, grid)
+            gridList = verticalFive(i, j, gridList, grid)
     return r.choice(gridList)
 
 ##TWO
@@ -110,5 +112,23 @@ def verticalFour(x, y, gL, g):
         grid[-1] = grid[-1]+[[x, y], [x, y+1], [x, y+2], [x, y+3]] #adds "X" coordinates to previous list
         gL.append(grid)
     return gL   
+
+##FIVE
+
+def horizontalFive(x, y, gL, g):
+    grid = initialize(g[-1])
+    if x+4 < 10 and x+3 < 10 and x+2 < 10 and x+1 < 10 and not any(i in [[x, y], [x+1, y], [x+2, y], [x+3, y], [x+4, y]] for i in grid[-1]): 
+        grid[x][y], grid[x+1][y], grid[x+2][y], grid[x+3][y], grid[x+4][y] = 'X', 'X', 'X', 'X', 'X'
+        grid[-1] = grid[-1]+[[x, y], [x+1, y], [x+2, y], [x+3, y], [x+4, y]] #adds "X" coordinates to previous list
+        gL.append(grid)
+    return gL
+
+def verticalFive(x, y, gL, g):
+    grid = initialize(g[-1])
+    if y+4 < 10 and y+3 <10 and y+2 < 10 and y+1 < 10 and not any(i in [[x, y], [x, y+1], [x, y+2], [x, y+3], [x, y+4]] for i in grid[-1]): 
+        grid[x][y], grid[x][y+1], grid[x][y+2], grid[x][y+3], grid[x][y+4] = 'X', 'X', 'X', 'X', 'X'
+        grid[-1] = grid[-1]+[[x, y], [x, y+1], [x, y+2], [x, y+3], [x, y+4]] #adds "X" coordinates to previous list
+        gL.append(grid)
+    return gL 
 
 fullGen()
