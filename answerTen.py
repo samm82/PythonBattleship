@@ -20,4 +20,4 @@ def vertical(x, y, s, gL):
         gL.append(grid)
     return gL
 
-answerGen(5)
+tenGen(5)
