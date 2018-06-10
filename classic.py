@@ -123,5 +123,3 @@ def guessIdentify(g):
     if len(g) != 3:
         guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return guessLocation[0], guessLocation[1]
-
-play()
