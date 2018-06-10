@@ -19,13 +19,14 @@ def play():
              ['10', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'],
              []]
     patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk = False, False, False, False, False #initializes for checkBoats
-    checkList = [patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk]
+    ships = 5
+    checkList = [patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk, ships]
     guess(attempts, hits, answer, blank, checkList)
 
 def guess(attempts, hits, answer, blank, cL):
     while attempts != 0:
         display(blank)
-        print("You have %s attempts left." % attempts)
+        print("You have {0} attempts and {1} ships left.".format(attempts, cL[-1]))
         if attempts == 40:
             g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
         else:
@@ -75,22 +76,27 @@ def checkBoats(boats, guess, cL):
     if not cL[0]:
         if boats[0] == []:
             print("Patrol boat sunk!")
+            cL[-1] -= 1
             cL[0] = True
     if not cL[1]:
         if boats[1] == []:
             print("Destroyer sunk!")
+            cL[-1] -= 1
             cL[1] = True
     if not cL[2]:
         if boats[2] == []:
             print("Submarine sunk!")
+            cL[-1] -= 1
             cL[2] = True
     if not cL[3]:
         if boats[3] == []:
             print("Battleship sunk!")
+            cL[-1] -= 1
             cL[3] = True
     if not cL[4]:
         if boats[4] == []:
             print("Aircraft carrier sunk!")
+            cL[-1] -= 1
             cL[4] = True
 
 def guessIdentify(g):
@@ -117,3 +123,5 @@ def guessIdentify(g):
     if len(g) != 3:
         guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return guessLocation[0], guessLocation[1]
+
+play()
