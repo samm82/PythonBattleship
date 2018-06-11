@@ -62,6 +62,7 @@ def fiveLong(grid):
     return r.choice(gridList)
 
 ##TWO
+
 def horizontalTwo(x, y, gL):
     grid = blankGrid()
     if x+1 < 10: 
