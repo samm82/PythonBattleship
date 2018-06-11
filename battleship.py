@@ -22,6 +22,7 @@ def menu():
             subComp.play()
         else:
             submarine.play()
+        input("Press enter to go back to the menu.")
         print("\n"*100) #clear screen
         main()
     elif choice.lower() in ['3', 'three', 'exit', 'quit', 'kill', 'leave', 'no', 'nope']:

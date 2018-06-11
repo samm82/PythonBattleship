@@ -1,6 +1,6 @@
 import answerTen as aT
 import random as r
-import display
+from display import display
 
 def play():
     size, attempts, hits = 5, 10, 0
