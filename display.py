@@ -7,5 +7,5 @@ def display(lst):
 def displayBoth(a, b):
     c = []
     for i in range(len(a)):
-        c.append(a[1]+b[1])
+        c.append(a[i]+["   "]+b[i])
     display(c)

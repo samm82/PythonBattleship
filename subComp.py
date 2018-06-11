@@ -5,7 +5,7 @@ import display as d
 def play():
     size, attempts, hits = 5, 10, 0
     answer = r.choice(aT.tenGen(size))
-    blankPlayer = [['   PLAYER   '], [],
+    blankPlayer = [['     PLAYER   '], [],
                    ['   A', 'B', 'C', 'D', 'E'], [],
                    ['1 ', '.', '.' ,'.', '.', '.'],
                    ['2 ', '.', '.' ,'.', '.', '.'],
@@ -19,6 +19,7 @@ def play():
                    ['3 ', '.', '.' ,'.', '.', '.'],
                    ['4 ', '.', '.' ,'.', '.', '.'],
                    ['5 ', '.', '.' ,'.', '.', '.'], []]
+    d.displayBoth(blankPlayer, blankComp)
     guess(size, attempts, hits, answer, blankPlayer)
 
 def guess(size, attempts, hits, answer, blankPlayer):
@@ -76,3 +77,4 @@ def guessIdentify(g):
     guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return guessLocation[0], guessLocation[1]
 
+play()
