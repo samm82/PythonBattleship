@@ -3,7 +3,7 @@ import answerFull as aF
 import random as r
 
 def play():
-    attempts, hits = 40, 0
+    attempts, hits, ships = 4, 0, 5
     answer = aF.fullGen()
     blank = [[],
              ['   A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], [],
@@ -19,9 +19,9 @@ def play():
              ['10', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'],
              []]
     patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk = False, False, False, False, False #initializes for checkBoats
-    ships = 5
     checkList = [patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk, ships]
     guess(attempts, hits, answer, blank, checkList)
+    return None
 
 def guess(attempts, hits, answer, blank, cL):
     while attempts != 0:
@@ -34,7 +34,11 @@ def guess(attempts, hits, answer, blank, cL):
         if g[0].upper() in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'] and g[1:2] == '10':
             x, y = guessIdentify(g)
             print(blank)
-        elif (len(g)<2) or (g[0].upper() not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) or (g[1] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']):
+        listGuess = list(g)
+        while listGuess[0] == " ":
+            listGuess.remove(" ")
+        g = "".join(listGuess)
+        if (len(g)<2) or (g[0].upper() not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) or (g[1] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']):
             print("\nINVALID GUESS. Try again.\n")
             guess(attempts, hits, answer, blank, cL)
         else:

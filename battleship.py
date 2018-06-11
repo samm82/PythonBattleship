@@ -13,10 +13,12 @@ def menu():
     choice = input("\nWhich gamemode?\n\n[1] Classic\n[2] Find the Submarine\n[3] Exit\n\n>")
     if choice.lower() in ['1', 'one', 'classic', 'c']:
         classic.play()
-        menu()
+        print("\n"*100) #clear screen
+        main()
     elif choice.lower() in ['2', 'two', 'submarine', 'sub', 's']:
         submarine.play()
-        menu()
+        print("\n"*100) #clear screen
+        main()
     elif choice.lower() in ['3', 'three', 'exit', 'quit', 'kill', 'leave', 'no', 'nope']:
         raise SystemExit
     else:
