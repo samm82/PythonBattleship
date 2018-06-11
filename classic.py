@@ -34,10 +34,7 @@ def guess(attempts, hits, answer, blank, cL):
         if g[0].upper() in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'] and g[1:2] == '10':
             x, y = guessIdentify(g)
             print(blank)
-        listGuess = list(g)
-        while listGuess[0] == " ":
-            listGuess.remove(" ")
-        g = "".join(listGuess)
+        g = "".join(g.split())
         if (len(g)<2) or (g[0].upper() not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) or (g[1] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']):
             print("\nINVALID GUESS. Try again.\n")
             guess(attempts, hits, answer, blank, cL)
