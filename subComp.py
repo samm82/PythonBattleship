@@ -3,65 +3,111 @@ import random as r
 import display as d
 
 def play():
-    size, attempts, hits = 5, 10, 0
-    answer = r.choice(aT.tenGen(size))
-    blankPlayer = [['     PLAYER   '], [],
+    blankPlayer = [[], ['     PLAYER   '], [],
                    ['   A', 'B', 'C', 'D', 'E'], [],
                    ['1 ', '.', '.' ,'.', '.', '.'],
                    ['2 ', '.', '.' ,'.', '.', '.'],
                    ['3 ', '.', '.' ,'.', '.', '.'],
                    ['4 ', '.', '.' ,'.', '.', '.'],
                    ['5 ', '.', '.' ,'.', '.', '.'], []]
-    blankComp = [['   COMP   '], [],
+    blankComp = [[], ['   COMP   '], [],
                    ['   A', 'B', 'C', 'D', 'E'], [],
                    ['1 ', '.', '.' ,'.', '.', '.'],
                    ['2 ', '.', '.' ,'.', '.', '.'],
                    ['3 ', '.', '.' ,'.', '.', '.'],
                    ['4 ', '.', '.' ,'.', '.', '.'],
                    ['5 ', '.', '.' ,'.', '.', '.'], []]
-    d.displayBoth(blankPlayer, blankComp)
-    guess(size, attempts, hits, answer, blankPlayer)
+    pickShip(blankPlayer, blankComp)
 
-def guess(size, attempts, hits, answer, blankPlayer):
-    while attempts != 0:
-        d.display(blankPlayer)
-        print("You have %s attempts left." % attempts)
-        if attempts == 10:
-            g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
+def pickShip(blankP, blankC):
+    d.display(blankP)
+    start = input("Enter the position of one end of your submarine: ")
+    if (len(start)<2) or start[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (start[1] not in ['1', '2', '3', '4', '5']):
+        print("\nINVALID INPUT. Try again.\n")
+        pickShip(blankP, blankC)
+    else:
+        x1, y1 = guessIdentify(start)
+        end = input("Enter the position of the other end of your submarine: ")
+        if (len(end)<2) or end[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (end[1] not in ['1', '2', '3', '4', '5']):
+            print("\nINVALID INPUT. Try again.\n")
+            pickShip(blankP, blankC)
         else:
-            g = input("Enter your guess: ")
-        if (len(g)<2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
-            print("\nINVALID GUESS. Try again.\n")
-            guess(size, attempts, hits, answer, blankPlayer)
-        else:
-            x, y = guessIdentify(g)
-            if blankPlayer[y+3][x+1] != '.': # to navigate "filler" text for display to work properly
-                print("\nYou already guessed here. Try again.\n")
-                guess(size, attempts, hits, answer, blankPlayer)
+            x2, y2 = guessIdentify(end)
+            if abs(x1 - x2) == 2 and (y1 == y2):
+                small = min([x1, x2]) + 1
+                y = y1 + 5
+                blankC[y][small], blankC[y][small+1], blankC[y][small+2] = '#', '#', '#'
+            elif x1 == x2 and (abs(y1 - y2) == 2):
+                small = min([y1, y2]) + 5
+                x = x1 + 1
+                blankC[small][x], blankC[small+1][x], blankC[small+2][x] = '#', '#', '#'
             else:
-                blankPlayer[y+3][x+1] = answer[x][y]
-                if answer[x][y] == "O":
-                    print("\nMM    MM IIIIII  SSSS   SSSS \nMMM  MMM   II   SS  SS SS  SS\nMMMMMMMM   II    SS     SS   \nMM MM MM   II      SS     SS \nMM    MM   II   SS  SS SS  SS\nMM    MM IIIIII  SSSS   SSSS \n")
-                elif answer[x][y] == "X":
-                    print("\nHH  HH IIIIII TTTTTT !!\nHH  HH   II     TT   !!\nHHHHHH   II     TT   !!\nHH  HH   II     TT   !!\nHH  HH   II     TT     \nHH  HH IIIIII   TT   !!\n")
-                    hits += 1
+                print("\nINVALID BOAT POSITION. Your submarine is three spaces long and cannot be diagonal - try again.\n")
+                pickShip(blankP, blankC)
+    size, pHits, cHits, t = 5, 0, 0, []
+    answer = r.choice(aT.tenGen(size))
+    guess(size, pHits, cHits, answer, blankP, blankC, t)
+
+def guess(size, p, c, answer, player, comp, t):
+    d.displayBoth(player, comp)
+    g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
+    if (len(g)<2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
+        print("\nINVALID GUESS. Try again.\n")
+        guess(size, p, c, answer, player, comp, t)
+    else:
+        x, y = guessIdentify(g)
+        if player[y+5][x+1] != '.': # to navigate "filler" text for display to work properly
+            print("\nYou already guessed here. Try again.\n")
+            guess(size, p, c, answer, player, comp, t)
+        else:
+            player[y+5][x+1] = answer[x][y]
+            if answer[x][y] == "O":
+                print("\nMM    MM IIIIII  SSSS   SSSS \nMMM  MMM   II   SS  SS SS  SS\nMMMMMMMM   II    SS     SS   \nMM MM MM   II      SS     SS \nMM    MM   II   SS  SS SS  SS\nMM    MM IIIIII  SSSS   SSSS \n")
+            elif answer[x][y] == "X":
+                print("\nHH  HH IIIIII TTTTTT !!\nHH  HH   II     TT   !!\nHHHHHH   II     TT   !!\nHH  HH   II     TT   !!\nHH  HH   II     TT     \nHH  HH IIIIII   TT   !!\n")
+                p += 1
+            else:
+                print("ERROR") #should never run, but just in case
+    if p != 3:
+        compGuess(size, p, c, answer, player, comp, t)
+    else:
+        d.displayBoth(player, comp)
+        print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
+        again()
+
+def compGuess(size, p, c, answer, player, comp, tryHere):
+    if tryHere:
+        g = tryHere.pop(r.randrange(len(tryHere)))
+        x, y = g[0], g[1]
+    else:
+        g = r.choice(['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4', 'D5', 'E1', 'E2', 'E3', 'E4', 'E5'])
+        x, y = guessIdentify(g)
+    if comp[y+5][x+1] in ['O', 'X']: # to navigate "filler" text for display to work properly
+        compGuess(size, p, c, answer, player, comp, tryHere)
+    else:
+        if comp[y+5][x+1] == ".":
+            print("\nThe computer missed.\n")
+            comp[y+5][x+1] = "O"
+        elif comp[y+5][x+1] == "#":
+            print("\nThe computer hit your submarine!\n")
+            comp[y+5][x+1] = "X"
+            c += 1
+        else:
+            print("ERROR") #should never run, but just in case
+    if c != 3:
+        guess(size, p, c, answer, player, comp, tryHere)
+    else:
+        d.displayBoth(player, comp)
+        print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
+        print("The boat was here:\n")
+        for i in range(5):
+            for j in range(5):
+                if answer[i][j] == "X":
+                    player[j+5][i+1] = answer[i][j]
                 else:
-                    print("ERROR") #should never run, but just in case
-                attempts -= 1
-        if hits == 3:
-            d.display(blankPlayer)
-            print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-            again()
-    d.display(blankPlayer)
-    print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
-    print("The boat was here:\n")
-    for i in range(5):
-        for j in range(5):
-            if answer[i][j] == "X":
-                blankPlayer[j+3][i+1] = answer[i][j]
-            else:
-                continue
-    d.display(blankPlayer)
+                    continue
+        d.display(player)
+        again()
 
 def guessIdentify(g):
     guessLocation = [0, 0] #default is A1
@@ -77,4 +123,10 @@ def guessIdentify(g):
     guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return guessLocation[0], guessLocation[1]
 
-play()
+def again():
+    replay = input("Do you want to play again? (Y/N): ")
+    if replay[0].lower() == "y":
+        play()
+    else:
+        print("\n"*100)
+        quit
