@@ -1,4 +1,4 @@
-##Battleship
+##Battleship - Sam Crawford
 
 import display as d
 import random as r
@@ -32,22 +32,20 @@ def menu():
         menu()
 
 def play(m):
-    s, p, c, a, bp, bc, t = 5, 0, 0, [], [], [], []
     s, p, c, a, bp, bc, t = m.play()
-    print (s, p, c, a, bp, bc, t)
     while c != 3:
-        s, p, c, a, bp, bc, t = m.guess(s, p, c, a, bp, bc, t)
+        p, c, a, bp, bc = m.guess(p, c, a, bp, bc)
         if p != 3:
-            s, p, c, a, bp, bc, t = m.compGuess(s, p, c, a, bp, bc, t)
+            p, c, a, bp, bc, t = m.compGuess(p, c, a, bp, bc, t)
         else:
             d.displayBoth(bp, bc)
             print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-            again(subComp)
+            again(m)
     d.displayBoth(bp, bc)
     print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
     print("The boat was here:\n")
-    for i in range(5):
-        for j in range(5):
+    for i in range(s):
+        for j in range(s):
             if answer[i][j] == "X":
                 player[j+5][i+1] = answer[i][j]
             else:
@@ -55,7 +53,6 @@ def play(m):
     d.display(bp)
     again(m)
     
-
 def again(m):
     replay = input("Do you want to play again? (Y/N): ")
     if replay[0].lower() == "y":

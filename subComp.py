@@ -1,4 +1,4 @@
-import answerTen as aT
+import answerSub as aS
 import random as r
 import display as d
 
@@ -45,21 +45,20 @@ def pickShip(blankP, blankC):
                 print("\nINVALID BOAT POSITION. Your submarine is three spaces long and cannot be diagonal - try again.\n")
                 pickShip(blankP, blankC)
     size, pHits, cHits, t = 5, 0, 0, []
-    answer = r.choice(aT.tenGen(size))
+    answer = r.choice(aS.subGen(5))
     return size, pHits, cHits, answer, blankP, blankC, t
-    #guess(size, pHits, cHits, answer, blankP, blankC, t)
 
-def guess(size, p, c, answer, player, comp, t):
+def guess(p, c, answer, player, comp):
     d.displayBoth(player, comp)
     g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
     if (len(g)<2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
         print("\nINVALID GUESS. Try again.\n")
-        guess(size, p, c, answer, player, comp, t)
+        guess(p, c, answer, player, comp)
     else:
         x, y = guessIdentify(g)
         if player[y+5][x+1] != '.': # to navigate "filler" text for display to work properly
             print("\nYou already guessed here. Try again.\n")
-            guess(size, p, c, answer, player, comp, t)
+            guess(p, c, answer, player, comp)
         else:
             player[y+5][x+1] = answer[x][y]
             if answer[x][y] == "O":
@@ -69,15 +68,9 @@ def guess(size, p, c, answer, player, comp, t):
                 p += 1
             else:
                 print("ERROR") #should never run, but just in case
-    return size, p, c, answer, player, comp, t
-##    if p != 3:
-##        compGuess(size, p, c, answer, player, comp, t)
-##    else:
-##        d.displayBoth(player, comp)
-##        print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-##        again()
+    return p, c, answer, player, comp
 
-def compGuess(size, p, c, answer, player, comp, tryHere):
+def compGuess(p, c, answer, player, comp, tryHere):
     if tryHere:
         g = tryHere.pop(r.randrange(len(tryHere)))
         x, y = g[0], g[1]
@@ -85,7 +78,7 @@ def compGuess(size, p, c, answer, player, comp, tryHere):
         g = r.choice(['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4', 'D5', 'E1', 'E2', 'E3', 'E4', 'E5'])
         x, y = guessIdentify(g)
     if comp[y+5][x+1] in ['O', 'X']: # to navigate "filler" text for display to work properly
-        compGuess(size, p, c, answer, player, comp, tryHere)
+        compGuess(p, c, answer, player, comp, tryHere)
     else:
         if comp[y+5][x+1] == ".":
             print("\nThe computer missed.\n")
@@ -96,21 +89,7 @@ def compGuess(size, p, c, answer, player, comp, tryHere):
             c += 1
         else:
             print("ERROR") #should never run, but just in case
-    return size, p, c, answer, player, comp, tryHere
-##    if c != 3:
-##        guess(size, p, c, answer, player, comp, tryHere)
-##    else:
-##        d.displayBoth(player, comp)
-##        print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
-##        print("The boat was here:\n")
-##        for i in range(5):
-##            for j in range(5):
-##                if answer[i][j] == "X":
-##                    player[j+5][i+1] = answer[i][j]
-##                else:
-##                    continue
-##        d.display(player)
-##        again()
+    return p, c, answer, player, comp, tryHere
 
 def guessIdentify(g):
     guessLocation = [0, 0] #default is A1
@@ -125,11 +104,3 @@ def guessIdentify(g):
     #else: not needed - default is 0
     guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return guessLocation[0], guessLocation[1]
-
-##def again():
-##    replay = input("Do you want to play again? (Y/N): ")
-##    if replay[0].lower() == "y":
-##        play()
-##    else:
-##        print("\n"*100)
-##        quit

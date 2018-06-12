@@ -1,4 +1,4 @@
-def tenGen(s):
+def subGen(s):
     gridList = []
     for i in range(s):
         for j in range(s):
@@ -19,5 +19,3 @@ def vertical(x, y, s, gL):
         grid[x][y], grid[x][y+1], grid[x][y+2] = 'X', 'X', 'X'
         gL.append(grid)
     return gL
-
-tenGen(5)

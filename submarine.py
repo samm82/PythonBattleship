@@ -1,10 +1,10 @@
-import answerTen as aT
+import answerSub as aS
 import random as r
 from display import display
 
 def play():
     size, attempts, hits = 5, 10, 0
-    answer = r.choice(aT.tenGen(size))
+    answer = r.choice(aS.subGen(size))
     blank = [[], ['   A', 'B', 'C', 'D', 'E'], [],
              ['1 ', '.', '.' ,'.', '.', '.'],
              ['2 ', '.', '.' ,'.', '.', '.'],
