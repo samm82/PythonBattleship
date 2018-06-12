@@ -17,11 +17,20 @@ def menu():
         print("\n"*100) #clear screen
         main()
     elif choice.lower() in ['2', 'two', 'submarine', 'sub', 's']:
-        style = input("\nAgainst a computer? (Y/N): ")
-        if style[0].lower() == "y":
-            play(subComp)
-        else:
+        style = input("\nSelect computer difficulty:\n\n[1] Easy\n[2] Normal\n[3] Hard\n[4] No Computer\n\n> ")
+        if style.lower() in ['1', 'easy', 'e']:
+            play(subComp, 0)
+        elif style.lower() in ['2', 'normal', 'n', 'norm']:
+            print("WIP")
+            menu()
+        elif style.lower() in ['3', 'hard', 'h', 'difficult', 'd', 'diff']:
+            print("WIP")
+            menu()
+        elif style.lower() in ['4', 'no', 'none', 'single', 'singleplayer']:
             submarine.play()
+        else:
+            print("Invalid input. Try again.")
+            menu()
         input("Press enter to go back to the menu.")
         print("\n"*100) #clear screen
         main()
@@ -31,7 +40,7 @@ def menu():
         print("Invalid input. Try again.")
         menu()
 
-def play(m):
+def play(m, diff):
     s, p, c, a, bp, bc, t = m.play()
     while c != 3:
         p, c, a, bp, bc = m.guess(p, c, a, bp, bc)
@@ -40,7 +49,7 @@ def play(m):
         else:
             d.displayBoth(bp, bc)
             print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-            again(m)
+            again(m, diff)
     d.displayBoth(bp, bc)
     print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
     print("The boat was here:\n")
@@ -51,13 +60,13 @@ def play(m):
             else:
                 continue
     d.display(bp)
-    again(m)
+    again(m, diff)
     
-def again(m):
+def again(m, d):
     replay = input("Do you want to play again? (Y/N): ")
     if replay[0].lower() == "y":
         print("\n"*100)
-        play(m)
+        play(m, d)
     else:
         print("\n"*100)
         main()
