@@ -17,7 +17,7 @@ def play():
                    ['3 ', '.', '.' ,'.', '.', '.'],
                    ['4 ', '.', '.' ,'.', '.', '.'],
                    ['5 ', '.', '.' ,'.', '.', '.'], []]
-    pickShip(blankPlayer, blankComp)
+    return pickShip(blankPlayer, blankComp)
 
 def pickShip(blankP, blankC):
     d.display(blankP)
@@ -46,7 +46,8 @@ def pickShip(blankP, blankC):
                 pickShip(blankP, blankC)
     size, pHits, cHits, t = 5, 0, 0, []
     answer = r.choice(aT.tenGen(size))
-    guess(size, pHits, cHits, answer, blankP, blankC, t)
+    return size, pHits, cHits, answer, blankP, blankC, t
+    #guess(size, pHits, cHits, answer, blankP, blankC, t)
 
 def guess(size, p, c, answer, player, comp, t):
     d.displayBoth(player, comp)
@@ -68,12 +69,13 @@ def guess(size, p, c, answer, player, comp, t):
                 p += 1
             else:
                 print("ERROR") #should never run, but just in case
-    if p != 3:
-        compGuess(size, p, c, answer, player, comp, t)
-    else:
-        d.displayBoth(player, comp)
-        print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-        again()
+    return size, p, c, answer, player, comp, t
+##    if p != 3:
+##        compGuess(size, p, c, answer, player, comp, t)
+##    else:
+##        d.displayBoth(player, comp)
+##        print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
+##        again()
 
 def compGuess(size, p, c, answer, player, comp, tryHere):
     if tryHere:
@@ -94,20 +96,21 @@ def compGuess(size, p, c, answer, player, comp, tryHere):
             c += 1
         else:
             print("ERROR") #should never run, but just in case
-    if c != 3:
-        guess(size, p, c, answer, player, comp, tryHere)
-    else:
-        d.displayBoth(player, comp)
-        print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
-        print("The boat was here:\n")
-        for i in range(5):
-            for j in range(5):
-                if answer[i][j] == "X":
-                    player[j+5][i+1] = answer[i][j]
-                else:
-                    continue
-        d.display(player)
-        again()
+    return size, p, c, answer, player, comp, tryHere
+##    if c != 3:
+##        guess(size, p, c, answer, player, comp, tryHere)
+##    else:
+##        d.displayBoth(player, comp)
+##        print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
+##        print("The boat was here:\n")
+##        for i in range(5):
+##            for j in range(5):
+##                if answer[i][j] == "X":
+##                    player[j+5][i+1] = answer[i][j]
+##                else:
+##                    continue
+##        d.display(player)
+##        again()
 
 def guessIdentify(g):
     guessLocation = [0, 0] #default is A1
@@ -123,10 +126,10 @@ def guessIdentify(g):
     guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return guessLocation[0], guessLocation[1]
 
-def again():
-    replay = input("Do you want to play again? (Y/N): ")
-    if replay[0].lower() == "y":
-        play()
-    else:
-        print("\n"*100)
-        quit
+##def again():
+##    replay = input("Do you want to play again? (Y/N): ")
+##    if replay[0].lower() == "y":
+##        play()
+##    else:
+##        print("\n"*100)
+##        quit
