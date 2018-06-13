@@ -3,7 +3,7 @@ import answerFull as aF
 import random as r
 
 def play():
-    attempts, hits, ships = 4, 0, 5
+    attempts, hits, ships = 40, 0, 5
     answer = aF.fullGen()
     blank = [[],
              ['   A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], [],
