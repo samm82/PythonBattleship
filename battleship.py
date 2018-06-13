@@ -21,7 +21,7 @@ def menu():
         if style.lower() in ['1', 'easy', 'e']:
             play(subComp, 0)
         elif style.lower() in ['2', 'normal', 'n', 'norm']:
-            print("WIP")
+            play(subComp, 1)
             menu()
         elif style.lower() in ['3', 'hard', 'h', 'difficult', 'd', 'diff']:
             print("WIP")
@@ -43,9 +43,10 @@ def menu():
 def play(m, diff):
     s, p, c, a, bp, bc, t = m.play()
     while c != 3:
+        print(t, c)
         p, c, a, bp, bc = m.guess(p, c, a, bp, bc)
         if p != 3:
-            p, c, a, bp, bc, t = m.compGuess(p, c, a, bp, bc, t)
+            p, c, a, bp, bc, t = m.compGuess(p, c, a, bp, bc, t, diff)
         else:
             d.displayBoth(bp, bc)
             print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
@@ -55,8 +56,8 @@ def play(m, diff):
     print("The boat was here:\n")
     for i in range(s):
         for j in range(s):
-            if answer[i][j] == "X":
-                player[j+5][i+1] = answer[i][j]
+            if a[i][j] == "X":
+                bp[j+5][i+1] = a[i][j]
             else:
                 continue
     d.display(bp)

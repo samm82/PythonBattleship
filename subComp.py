@@ -70,25 +70,43 @@ def guess(p, c, answer, player, comp):
                 print("ERROR") #should never run, but just in case
     return p, c, answer, player, comp
 
-def compGuess(p, c, answer, player, comp, tryHere):
-    if tryHere:
-        g = tryHere.pop(r.randrange(len(tryHere)))
-        x, y = g[0], g[1]
-    else:
+def compGuess(p, c, answer, player, comp, tryHere, d): #merge difficulties?
+    if d == 0:
         g = r.choice(['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4', 'D5', 'E1', 'E2', 'E3', 'E4', 'E5'])
         x, y = guessIdentify(g)
-    if comp[y+5][x+1] in ['O', 'X']: # to navigate "filler" text for display to work properly
-        compGuess(p, c, answer, player, comp, tryHere)
-    else:
-        if comp[y+5][x+1] == ".":
-            print("\nThe computer missed.\n")
-            comp[y+5][x+1] = "O"
-        elif comp[y+5][x+1] == "#":
-            print("\nThe computer hit your submarine!\n")
-            comp[y+5][x+1] = "X"
-            c += 1
+        if comp[y+5][x+1] in ['O', 'X']: # to navigate "filler" text for display to work properly
+            compGuess(p, c, answer, player, comp, tryHere, d)
         else:
-            print("ERROR") #should never run, but just in case
+            if comp[y+5][x+1] == ".":
+                print("\nThe computer missed.\n")
+                comp[y+5][x+1] = "O"
+            elif comp[y+5][x+1] == "#":
+                print("\nThe computer hit your submarine!\n")
+                comp[y+5][x+1] = "X"
+                c += 1
+            else:
+                print("ERROR") #should never run, but just in case
+    elif d == 1:
+        if tryHere:
+            g = tryHere.pop(r.randrange(len(tryHere)))
+            x, y = g[0], g[1]
+        else:
+            g = r.choice(['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4', 'D5', 'E1', 'E2', 'E3', 'E4', 'E5'])
+            x, y = guessIdentify(g)
+        if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
+            # already guessed location, just tries again -> optimize?
+            compGuess(p, c, answer, player, comp, tryHere, d)
+        else:
+            if comp[y+5][x+1] == ".":
+                print("\nThe computer missed.\n")
+                comp[y+5][x+1] = "O"
+            elif comp[y+5][x+1] == "#":
+                print("\nThe computer hit your submarine!\n")
+                comp[y+5][x+1] = "X"
+                tryHere += genTryHere(comp, x, y)
+                c += 1
+            else:
+                print("ERROR") #should never run, but just in case
     return p, c, answer, player, comp, tryHere
 
 def guessIdentify(g):
@@ -104,3 +122,18 @@ def guessIdentify(g):
     #else: not needed - default is 0
     guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return guessLocation[0], guessLocation[1]
+
+def genTryHere(c, x, y):
+    tryList = []
+    if x+1 < 5:
+        tryList.append([x+1, y])
+    if x-1 >= 0:
+        tryList.append([x-1, y])
+    if y+1 < 5:
+        tryList.append([x, y+1])
+    if y-1 >= 0:
+        tryList.append([x, y-1])
+    for coord in tryList:
+        if c[coord[1]+5][coord[0]+1] in ['O', 'X']:
+            tryList.remove(coord) #optimize?
+    return tryList
