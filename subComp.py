@@ -48,17 +48,17 @@ def pickShip(blankP, blankC):
     answer = r.choice(aS.subGen(5))
     return size, pHits, cHits, answer, blankP, blankC, t, h
 
-def guess(p, c, answer, player, comp):
+def guess(p, answer, player, comp):
     d.displayBoth(player, comp)
     g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
     if (len(g)<2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
         print("\nINVALID GUESS. Try again.\n")
-        guess(p, c, answer, player, comp)
+        guess(p, answer, player, comp)
     else:
         x, y = guessIdentify(g)
         if player[y+5][x+1] != '.': # to navigate "filler" text for display to work properly
             print("\nYou already guessed here. Try again.\n")
-            guess(p, c, answer, player, comp)
+            guess(p, answer, player, comp)
         else:
             player[y+5][x+1] = answer[x][y]
             if answer[x][y] == "O":
@@ -68,7 +68,7 @@ def guess(p, c, answer, player, comp):
                 p += 1
             else:
                 print("ERROR") #should never run, but just in case
-    return p, c, answer, player, comp
+    return p, answer, player, comp
 
 def compGuess(c, comp, tryHere, hits, d): #merge difficulties?
     if d == 0:

@@ -43,7 +43,7 @@ def menu():
 def play(m, diff):
     s, p, c, a, bp, bc, t, h = m.play()
     while c != 3:
-        p, c, a, bp, bc = m.guess(p, c, a, bp, bc)
+        p, a, bp, bc = m.guess(p, a, bp, bc)
         if p != 3:
             c, bc, t, h = m.compGuess(c, bc, t, h, diff)
         else:
