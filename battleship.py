@@ -44,7 +44,7 @@ def play(m, diff):
     s, p, c, a, bp, bc, gL, t, h = m.play(diff)
     while c != 3:
         p, a, bp, bc = m.guess(p, a, bp, bc)
-        if p = 'menu':
+        if p == 'menu':
             print("\n"*100) #clear screen
             menu()
         elif p != 3:
