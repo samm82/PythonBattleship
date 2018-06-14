@@ -24,7 +24,7 @@ def menu():
             play(subComp, 1)
             menu()
         elif style.lower() in ['3', 'hard', 'h', 'difficult', 'd', 'diff']:
-            print("WIP")
+            play(subComp, 2)
             menu()
         elif style.lower() in ['4', 'no', 'none', 'single', 'singleplayer']:
             submarine.play()
@@ -41,12 +41,11 @@ def menu():
         menu()
 
 def play(m, diff):
-    s, p, c, a, bp, bc, t = m.play()
+    s, p, c, a, bp, bc, t, h = m.play()
     while c != 3:
-        print(t, c)
         p, c, a, bp, bc = m.guess(p, c, a, bp, bc)
         if p != 3:
-            p, c, a, bp, bc, t = m.compGuess(p, c, a, bp, bc, t, diff)
+            p, c, a, bp, bc, t, h = m.compGuess(p, c, a, bp, bc, t, h, diff)
         else:
             d.displayBoth(bp, bc)
             print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
