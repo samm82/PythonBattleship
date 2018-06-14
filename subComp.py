@@ -48,7 +48,7 @@ def pickShip(blankP, blankC, gL):
                 print("\nINVALID BOAT POSITION. Your submarine is three spaces long and cannot be diagonal - try again.\n")
                 pickShip(blankP, blankC, gL)
     size, pHits, cHits, t, h = 5, 0, 0, [], []
-    answer = r.choice(aS.subGen(5))
+    answer = r.choice(aS.subGen())
     return size, pHits, cHits, answer, blankP, blankC, gL, t, h
 
 def guess(p, answer, player, comp):
