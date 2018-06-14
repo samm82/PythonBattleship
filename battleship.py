@@ -45,7 +45,7 @@ def play(m, diff):
     while c != 3:
         p, c, a, bp, bc = m.guess(p, c, a, bp, bc)
         if p != 3:
-            p, c, a, bp, bc, t, h = m.compGuess(p, c, a, bp, bc, t, h, diff)
+            c, bc, t, h = m.compGuess(c, bc, t, h, diff)
         else:
             d.displayBoth(bp, bc)
             print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")

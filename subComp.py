@@ -70,12 +70,12 @@ def guess(p, c, answer, player, comp):
                 print("ERROR") #should never run, but just in case
     return p, c, answer, player, comp
 
-def compGuess(p, c, answer, player, comp, tryHere, hits, d): #merge difficulties?
+def compGuess(c, comp, tryHere, hits, d): #merge difficulties?
     if d == 0:
         g = r.choice(['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4', 'D5', 'E1', 'E2', 'E3', 'E4', 'E5'])
         x, y = guessIdentify(g)
         if comp[y+5][x+1] in ['O', 'X']: # to navigate "filler" text for display to work properly
-            compGuess(p, c, answer, player, comp, tryHere, hits, d)
+            compGuess(c, comp, tryHere, hits, d)
         else:
             if comp[y+5][x+1] == ".":
                 print("\nThe computer missed.\n")
@@ -95,7 +95,7 @@ def compGuess(p, c, answer, player, comp, tryHere, hits, d): #merge difficulties
             x, y = guessIdentify(g)
         if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
             # already guessed location, just tries again -> optimize?
-            compGuess(p, c, answer, player, comp, tryHere, hits, d)
+            compGuess(c, comp, tryHere, hits, d)
         else:
             if comp[y+5][x+1] == ".":
                 print("\nThe computer missed.\n")
@@ -118,7 +118,7 @@ def compGuess(p, c, answer, player, comp, tryHere, hits, d): #merge difficulties
             x, y = guessIdentify(g)
         if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
             # already guessed location, just tries again -> optimize?
-            compGuess(p, c, answer, player, comp, tryHere, hits, d)
+            compGuess(c, comp, tryHere, hits, d)
         else:
             if comp[y+5][x+1] == ".":
                 print("\nThe computer missed.\n")
@@ -131,7 +131,7 @@ def compGuess(p, c, answer, player, comp, tryHere, hits, d): #merge difficulties
                 hits.append([x,y])
             else:
                 print("ERROR") #should never run, but just in case
-    return p, c, answer, player, comp, tryHere, hits
+    return c, comp, tryHere, hits
 
 def guessIdentify(g):
     guessLocation = [0, 0] #default is A1
