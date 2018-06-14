@@ -73,56 +73,28 @@ def guess(p, answer, player, comp):
                 print("ERROR") #should never run, but just in case
     return p, answer, player, comp
 
-def compGuess(c, comp, gL, tryHere, hits, d): #merge difficulties?
-    if d == 0:
+def compGuess(c, comp, gL, tryHere, hits, d):
+    if len(hits) >= 2 and (d == 2):
+        tryHere = genTryFromHits(comp, tryHere, hits)
+    if d >= 1 and tryHere:
+        g = tryHere.pop(r.randrange(len(tryHere)))
+        x, y = g[0], g[1]
+    else:
         g = gL.pop(r.randrange(len(gL)))
         x, y = guessIdentify(g)
-        if comp[y+5][x+1] == ".":
-            print("\nThe computer missed.\n")
-            comp[y+5][x+1] = "O"
-        elif comp[y+5][x+1] == "#":
-            print("\nThe computer hit your submarine!\n")
-            comp[y+5][x+1] = "X"
-            c += 1
-        else:
-            print("ERROR") #should never run, but just in case
-    elif d == 1:
-        if tryHere:
-            g = tryHere.pop(r.randrange(len(tryHere)))
-            x, y = g[0], g[1]
-        else:
-            g = gL.pop(r.randrange(len(gL)))
-            x, y = guessIdentify(g)
-        if comp[y+5][x+1] == ".":
-            print("\nThe computer missed.\n")
-            comp[y+5][x+1] = "O"
-        elif comp[y+5][x+1] == "#":
-            print("\nThe computer hit your submarine!\n")
-            comp[y+5][x+1] = "X"
+    if comp[y+5][x+1] == ".":
+        print("\nThe computer missed.\n")
+        comp[y+5][x+1] = "O"
+    elif comp[y+5][x+1] == "#":
+        c += 1
+        print("\nThe computer hit your submarine!\n")
+        comp[y+5][x+1] = "X"
+        if d >= 1:
             tryHere += genTryHere(comp, x, y)
-            c += 1
-        else:
-            print("ERROR") #should never run, but just in case
-    elif d == 2:
-        if len(hits) >= 2:
-            tryHere = genTryFromHits(comp, tryHere, hits)
-        if tryHere:
-            g = tryHere.pop(r.randrange(len(tryHere)))
-            x, y = g[0], g[1]
-        else:
-            g = gL.pop(r.randrange(len(gL)))
-            x, y = guessIdentify(g)
-        if comp[y+5][x+1] == ".":
-            print("\nThe computer missed.\n")
-            comp[y+5][x+1] = "O"
-        elif comp[y+5][x+1] == "#":
-            c += 1
-            print("\nThe computer hit your submarine!\n")
-            comp[y+5][x+1] = "X"
-            tryHere += genTryHere(comp, x, y)
+        if d == 2:
             hits.append([x,y])
-        else:
-            print("ERROR") #should never run, but just in case
+    else:
+        print("ERROR") #should never run, but just in case
     return c, comp, gL, tryHere, hits
 
 def guessIdentify(g):
