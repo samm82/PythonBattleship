@@ -77,9 +77,6 @@ def compGuess(c, comp, gL, tryHere, hits, d): #merge difficulties?
     if d == 0:
         g = gL.pop(r.randrange(len(gL)))
         x, y = guessIdentify(g)
-#        if comp[y+5][x+1] in ['O', 'X']: # to navigate "filler" text for display to work properly
-#            compGuess(c, comp, tryHere, hits, d)
-#        else:
         if comp[y+5][x+1] == ".":
             print("\nThe computer missed.\n")
             comp[y+5][x+1] = "O"
@@ -96,10 +93,6 @@ def compGuess(c, comp, gL, tryHere, hits, d): #merge difficulties?
         else:
             g = gL.pop(r.randrange(len(gL)))
             x, y = guessIdentify(g)
-#        if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
-            # already guessed location, just tries again -> optimize?
-#            compGuess(c, comp, tryHere, hits, d)
-#        else:
         if comp[y+5][x+1] == ".":
             print("\nThe computer missed.\n")
             comp[y+5][x+1] = "O"
@@ -119,10 +112,6 @@ def compGuess(c, comp, gL, tryHere, hits, d): #merge difficulties?
         else:
             g = gL.pop(r.randrange(len(gL)))
             x, y = guessIdentify(g)
-#        if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
-            # already guessed location, just tries again -> optimize?
-#            compGuess(c, comp, tryHere, hits, d)
-#        else:
         if comp[y+5][x+1] == ".":
             print("\nThe computer missed.\n")
             comp[y+5][x+1] = "O"
@@ -134,7 +123,6 @@ def compGuess(c, comp, gL, tryHere, hits, d): #merge difficulties?
             hits.append([x,y])
         else:
             print("ERROR") #should never run, but just in case
-    print(gL)
     return c, comp, gL, tryHere, hits
 
 def guessIdentify(g):
