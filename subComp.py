@@ -108,6 +108,8 @@ def compGuess(p, c, answer, player, comp, tryHere, hits, d): #merge difficulties
             else:
                 print("ERROR") #should never run, but just in case
     elif d == 2:
+        if len(hits) >= 2:
+            tryHere = genTryFromHits(comp, tryHere, hits)
         if tryHere:
             g = tryHere.pop(r.randrange(len(tryHere)))
             x, y = g[0], g[1]
@@ -122,10 +124,11 @@ def compGuess(p, c, answer, player, comp, tryHere, hits, d): #merge difficulties
                 print("\nThe computer missed.\n")
                 comp[y+5][x+1] = "O"
             elif comp[y+5][x+1] == "#":
+                c += 1
                 print("\nThe computer hit your submarine!\n")
                 comp[y+5][x+1] = "X"
                 tryHere += genTryHere(comp, x, y)
-                c += 1
+                hits.append([x,y])
             else:
                 print("ERROR") #should never run, but just in case
     return p, c, answer, player, comp, tryHere, hits
@@ -158,3 +161,33 @@ def genTryHere(c, x, y):
         if c[coord[1]+5][coord[0]+1] in ['O', 'X']:
             tryList.remove(coord) #optimize?
     return tryList
+
+def genTryFromHits(comp, tryHere, hits):
+    hits.sort()
+    xHits, yHits = [], []
+    for coord in hits:
+        xHits.append(coord[0])
+        yHits.append(coord[1])
+    tempList = []
+    if xHits[0] == xHits[-1]:
+        stdX = xHits[0]
+        smallY = yHits[0] - 1
+        if smallY >= 0 and comp[smallY+5][stdX+1] not in ['O', 'X']:
+            tempList.append([stdX, smallY])
+        bigY = yHits[-1] + 1
+        if bigY < 5 and comp[bigY+5][stdX+1] not in ['O', 'X']:
+            tempList.append([stdX, bigY])
+    elif yHits[0] == yHits[-1]:
+        stdY = YHits[0]
+        smallX = xHits[0] - 1
+        if smallX >= 0 and comp[stdY+5][smallX+1] not in ['O', 'X']:
+            tempList.append([smallX, stdY])
+        bigX = yHits[-1] + 1
+        if bigX < 5 and comp[stdY+5][bigX+1] not in ['O', 'X']:
+            tempList.append([bigX, stdY])
+    if tempList:
+        tryHere = tempList
+    return tryHere
+
+
+        
