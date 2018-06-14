@@ -112,7 +112,7 @@ def compGuess(p, c, answer, player, comp, tryHere, hits, d): #merge difficulties
             g = tryHere.pop(r.randrange(len(tryHere)))
             x, y = g[0], g[1]
         else:
-            g = r.choice(['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4', 'D5', 'E1', 'E2', 'E3', 'E4', 'E5'])
+            g = r.choice(['A1', 'A3', 'A5', 'B2', 'B4', 'C1', 'C3', 'C5', 'D2', 'D4', 'E1', 'E3', 'E5'])
             x, y = guessIdentify(g)
         if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
             # already guessed location, just tries again -> optimize?
