@@ -44,7 +44,10 @@ def play(m, diff):
     s, p, c, a, bp, bc, t, h = m.play()
     while c != 3:
         p, c, a, bp, bc = m.guess(p, c, a, bp, bc)
-        if p != 3:
+        if c == "menu":
+            print("\n"*100) # clear screen
+            main()
+        elif p != 3:
             p, c, a, bp, bc, t, h = m.compGuess(p, c, a, bp, bc, t, h, diff)
         else:
             d.displayBoth(bp, bc)
@@ -65,10 +68,10 @@ def play(m, diff):
 def again(m, d):
     replay = input("Do you want to play again? (Y/N): ")
     if replay[0].lower() == "y":
-        print("\n"*100)
+        print("\n"*100) # clear screen
         play(m, d)
     else:
-        print("\n"*100)
+        print("\n"*100) # clear screen
         main()
     
 main()

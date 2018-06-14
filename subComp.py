@@ -50,8 +50,10 @@ def pickShip(blankP, blankC):
 
 def guess(p, c, answer, player, comp):
     d.displayBoth(player, comp)
-    g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
-    if (len(g)<2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
+    g = input("Enter your guess (eg. D2) or 'menu' to return to menu: ") #variable 'g' to not confuse with guess()
+    if g.lower() in ['menu', 'quit', 'back', 'kill', 'no', 'nope', 'exit']:
+        c = 'menu'
+    elif (len(g)<2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
         print("\nINVALID GUESS. Try again.\n")
         guess(p, c, answer, player, comp)
     else:
