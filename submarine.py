@@ -4,7 +4,7 @@ from display import display
 
 def play():
     size, attempts, hits = 5, 10, 0
-    answer = r.choice(aS.subGen(size))
+    answer = r.choice(aS.subGen())
     blank = [[], ['   A', 'B', 'C', 'D', 'E'], [],
              ['1 ', '.', '.' ,'.', '.', '.'],
              ['2 ', '.', '.' ,'.', '.', '.'],
