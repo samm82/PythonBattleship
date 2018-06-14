@@ -2,7 +2,7 @@ import answerSub as aS
 import random as r
 import display as d
 
-def play():
+def play(diff):
     blankPlayer = [[], ['     PLAYER   '], [],
                    ['   A', 'B', 'C', 'D', 'E'], [],
                    ['1 ', '.', '.' ,'.', '.', '.'],
@@ -17,20 +17,23 @@ def play():
                    ['3 ', '.', '.' ,'.', '.', '.'],
                    ['4 ', '.', '.' ,'.', '.', '.'],
                    ['5 ', '.', '.' ,'.', '.', '.'], []]
-    return pickShip(blankPlayer, blankComp)
+    guessList = ['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4', 'D5', 'E1', 'E2', 'E3', 'E4', 'E5']
+    if diff == 2:
+        guessList = halfGL(guessList)
+    return pickShip(blankPlayer, blankComp, guessList)
 
-def pickShip(blankP, blankC):
+def pickShip(blankP, blankC, gL):
     d.display(blankP)
     start = input("Enter the position of one end of your submarine: ")
     if (len(start)<2) or start[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (start[1] not in ['1', '2', '3', '4', '5']):
         print("\nINVALID INPUT. Try again.\n")
-        pickShip(blankP, blankC)
+        pickShip(blankP, blankC, gL)
     else:
         x1, y1 = guessIdentify(start)
         end = input("Enter the position of the other end of your submarine: ")
         if (len(end)<2) or end[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (end[1] not in ['1', '2', '3', '4', '5']):
             print("\nINVALID INPUT. Try again.\n")
-            pickShip(blankP, blankC)
+            pickShip(blankP, blankC, gL)
         else:
             x2, y2 = guessIdentify(end)
             if abs(x1 - x2) == 2 and (y1 == y2):
@@ -43,10 +46,10 @@ def pickShip(blankP, blankC):
                 blankC[small][x], blankC[small+1][x], blankC[small+2][x] = '#', '#', '#'
             else:
                 print("\nINVALID BOAT POSITION. Your submarine is three spaces long and cannot be diagonal - try again.\n")
-                pickShip(blankP, blankC)
+                pickShip(blankP, blankC, gL)
     size, pHits, cHits, t, h = 5, 0, 0, [], []
     answer = r.choice(aS.subGen(5))
-    return size, pHits, cHits, answer, blankP, blankC, t, h
+    return size, pHits, cHits, answer, blankP, blankC, gL, t, h
 
 def guess(p, answer, player, comp):
     d.displayBoth(player, comp)
@@ -70,43 +73,43 @@ def guess(p, answer, player, comp):
                 print("ERROR") #should never run, but just in case
     return p, answer, player, comp
 
-def compGuess(c, comp, tryHere, hits, d): #merge difficulties?
+def compGuess(c, comp, gL, tryHere, hits, d): #merge difficulties?
     if d == 0:
-        g = r.choice(['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4', 'D5', 'E1', 'E2', 'E3', 'E4', 'E5'])
+        g = gL.pop(r.randrange(len(gL)))
         x, y = guessIdentify(g)
-        if comp[y+5][x+1] in ['O', 'X']: # to navigate "filler" text for display to work properly
-            compGuess(c, comp, tryHere, hits, d)
+#        if comp[y+5][x+1] in ['O', 'X']: # to navigate "filler" text for display to work properly
+#            compGuess(c, comp, tryHere, hits, d)
+#        else:
+        if comp[y+5][x+1] == ".":
+            print("\nThe computer missed.\n")
+            comp[y+5][x+1] = "O"
+        elif comp[y+5][x+1] == "#":
+            print("\nThe computer hit your submarine!\n")
+            comp[y+5][x+1] = "X"
+            c += 1
         else:
-            if comp[y+5][x+1] == ".":
-                print("\nThe computer missed.\n")
-                comp[y+5][x+1] = "O"
-            elif comp[y+5][x+1] == "#":
-                print("\nThe computer hit your submarine!\n")
-                comp[y+5][x+1] = "X"
-                c += 1
-            else:
-                print("ERROR") #should never run, but just in case
+            print("ERROR") #should never run, but just in case
     elif d == 1:
         if tryHere:
             g = tryHere.pop(r.randrange(len(tryHere)))
             x, y = g[0], g[1]
         else:
-            g = r.choice(['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4', 'D5', 'E1', 'E2', 'E3', 'E4', 'E5'])
+            g = gL.pop(r.randrange(len(gL)))
             x, y = guessIdentify(g)
-        if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
+#        if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
             # already guessed location, just tries again -> optimize?
-            compGuess(c, comp, tryHere, hits, d)
+#            compGuess(c, comp, tryHere, hits, d)
+#        else:
+        if comp[y+5][x+1] == ".":
+            print("\nThe computer missed.\n")
+            comp[y+5][x+1] = "O"
+        elif comp[y+5][x+1] == "#":
+            print("\nThe computer hit your submarine!\n")
+            comp[y+5][x+1] = "X"
+            tryHere += genTryHere(comp, x, y)
+            c += 1
         else:
-            if comp[y+5][x+1] == ".":
-                print("\nThe computer missed.\n")
-                comp[y+5][x+1] = "O"
-            elif comp[y+5][x+1] == "#":
-                print("\nThe computer hit your submarine!\n")
-                comp[y+5][x+1] = "X"
-                tryHere += genTryHere(comp, x, y)
-                c += 1
-            else:
-                print("ERROR") #should never run, but just in case
+            print("ERROR") #should never run, but just in case
     elif d == 2:
         if len(hits) >= 2:
             tryHere = genTryFromHits(comp, tryHere, hits)
@@ -114,24 +117,25 @@ def compGuess(c, comp, tryHere, hits, d): #merge difficulties?
             g = tryHere.pop(r.randrange(len(tryHere)))
             x, y = g[0], g[1]
         else:
-            g = r.choice(['A1', 'A3', 'A5', 'B2', 'B4', 'C1', 'C3', 'C5', 'D2', 'D4', 'E1', 'E3', 'E5'])
+            g = gL.pop(r.randrange(len(gL)))
             x, y = guessIdentify(g)
-        if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
+#        if comp[y+5][x+1] in ['O', 'X']: # +5 and +1 to navigate "filler" text for display to work properly
             # already guessed location, just tries again -> optimize?
-            compGuess(c, comp, tryHere, hits, d)
+#            compGuess(c, comp, tryHere, hits, d)
+#        else:
+        if comp[y+5][x+1] == ".":
+            print("\nThe computer missed.\n")
+            comp[y+5][x+1] = "O"
+        elif comp[y+5][x+1] == "#":
+            c += 1
+            print("\nThe computer hit your submarine!\n")
+            comp[y+5][x+1] = "X"
+            tryHere += genTryHere(comp, x, y)
+            hits.append([x,y])
         else:
-            if comp[y+5][x+1] == ".":
-                print("\nThe computer missed.\n")
-                comp[y+5][x+1] = "O"
-            elif comp[y+5][x+1] == "#":
-                c += 1
-                print("\nThe computer hit your submarine!\n")
-                comp[y+5][x+1] = "X"
-                tryHere += genTryHere(comp, x, y)
-                hits.append([x,y])
-            else:
-                print("ERROR") #should never run, but just in case
-    return c, comp, tryHere, hits
+            print("ERROR") #should never run, but just in case
+    print(gL)
+    return c, comp, gL, tryHere, hits
 
 def guessIdentify(g):
     guessLocation = [0, 0] #default is A1
@@ -189,5 +193,12 @@ def genTryFromHits(comp, tryHere, hits):
         tryHere = tempList
     return tryHere
 
-
+def halfGL(lst):
+    left, right = [], []
+    for i in range(len(lst)):
+        if i % 2 == 0:
+            left.append(lst[i])
+        else:
+            right.append(lst[i])
+    return r.choice([left, right])
         
