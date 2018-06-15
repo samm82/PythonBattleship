@@ -79,9 +79,15 @@ def compGuess(c, comp, gL, tryHere, hits, d):
     if len(hits) >= 2 and (d == 2):
         tryHere = genTryFromHits(comp, tryHere, hits)
     if d >= 1 and tryHere:
+        print(tryHere)
+        for i in gL:
+            print(guessIdentify(i))
+        gL = [x for x in gL if guessIdentify(x) not in tryHere]
+        print(gL)
         g = tryHere.pop(r.randrange(len(tryHere)))
         x, y = g[0], g[1]
     else:
+        print(gL)
         g = gL.pop(r.randrange(len(gL)))
         x, y = guessIdentify(g)
     if comp[y+5][x+1] == ".":
@@ -97,6 +103,7 @@ def compGuess(c, comp, gL, tryHere, hits, d):
             hits.append([x,y])
     else:
         print("ERROR") #should never run, but just in case
+    d.display(comp)
     return c, comp, gL, tryHere, hits
 
 def guessIdentify(g):
@@ -144,7 +151,7 @@ def genTryFromHits(comp, tryHere, hits):
         if bigY < 5 and comp[bigY+5][stdX+1] not in ['O', 'X']:
             tempList.append([stdX, bigY])
     elif yHits[0] == yHits[-1]:
-        stdY = YHits[0]
+        stdY = yHits[0]
         smallX = xHits[0] - 1
         if smallX >= 0 and comp[stdY+5][smallX+1] not in ['O', 'X']:
             tempList.append([smallX, stdY])
