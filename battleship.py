@@ -22,12 +22,10 @@ def menu():
             play(subComp, 0)
         elif style.lower() in ['2', 'normal', 'n', 'norm']:
             play(subComp, 1)
-            menu()
         elif style.lower() in ['3', 'hard', 'h', 'difficult', 'd', 'diff']:
             play(subComp, 2)
-            menu()
         elif style.lower() in ['4', 'no', 'none', 'single', 'singleplayer']:
-            submarine.play()
+            playSingle(submarine)
         else:
             print("Invalid input. Try again.")
             menu()
@@ -46,7 +44,7 @@ def play(m, diff):
         p, a, bp, bc = m.guess(p, a, bp, bc)
         if p == 'menu':
             print("\n"*100) #clear screen
-            menu()
+            main()
         elif p != 3:
             c, bc, gL, t, h = m.compGuess(c, bc, gL, t, h, diff)
         else:
@@ -74,4 +72,36 @@ def again(m, d):
         print("\n"*100) # clear screen
         main()
     
+def playSingle(m):
+    s, a, h, ans, b = m.play()
+    while a != 0:
+        a, h, ans, b = m.guess(a, h, ans, b)
+        if a == 'menu':
+            print("\n"*100) #clear screen
+            main()
+        elif h == 3:
+            d.display(b)
+            print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
+            againSingle(m)
+    d.display(b)
+    print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
+    print("The boat was here:\n")
+    for i in range(5):
+        for j in range(5):
+            if ans[i][j] == "X":
+                b[j+3][i+1] = ans[i][j]
+            else:
+                continue
+    d.display(b)
+    againSingle(m)
+
+def againSingle(m):
+    replay = input("Do you want to play again? (Y/N): ")
+    if replay[0].lower() == "y":
+        print("\n"*100) # clear screen
+        playSingle(m)
+    else:
+        print("\n"*100) # clear screen
+        main()
+
 main()
