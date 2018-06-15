@@ -54,8 +54,8 @@ def pickShip(blankP, blankC, gL):
 def guess(p, answer, player, comp):
     d.displayBoth(player, comp)
     g = input("Enter your guess (eg. D2) or 'menu' to return to menu: ") #variable 'g' to not confuse with guess()
-    if g.lower() in ['menu', 'quit', 'back', 'kill', 'no', 'nope', 'exit']:
-        c = 'menu'
+    if (len(g)>1) and g.lower() in ['menu', 'quit', 'back', 'kill', 'no', 'nope', 'exit']:
+        p = 'menu'
     elif (len(g)<2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
         print("\nINVALID GUESS. Try again.\n")
         guess(p, answer, player, comp)
@@ -75,10 +75,11 @@ def guess(p, answer, player, comp):
                 print("ERROR") #should never run, but just in case
     return p, answer, player, comp
 
-def compGuess(c, comp, gL, tryHere, hits, d):
-    if len(hits) >= 2 and (d == 2):
+def compGuess(c, comp, gL, tryHere, hits, diff):
+    if len(hits) >= 2 and (diff == 2):
         tryHere = genTryFromHits(comp, tryHere, hits)
-    if d >= 1 and tryHere:
+    if diff >= 1 and tryHere:
+        gL = [x for x in gL if guessIdentify(x) not in tryHere]
         g = tryHere.pop(r.randrange(len(tryHere)))
         x, y = g[0], g[1]
     else:
@@ -91,9 +92,9 @@ def compGuess(c, comp, gL, tryHere, hits, d):
         c += 1
         print("\nThe computer hit your submarine!\n")
         comp[y+5][x+1] = "X"
-        if d >= 1:
+        if diff >= 1:
             tryHere += genTryHere(comp, x, y)
-        if d == 2:
+        if diff == 2:
             hits.append([x,y])
     else:
         print("ERROR") #should never run, but just in case
@@ -144,7 +145,7 @@ def genTryFromHits(comp, tryHere, hits):
         if bigY < 5 and comp[bigY+5][stdX+1] not in ['O', 'X']:
             tempList.append([stdX, bigY])
     elif yHits[0] == yHits[-1]:
-        stdY = YHits[0]
+        stdY = yHits[0]
         smallX = xHits[0] - 1
         if smallX >= 0 and comp[stdY+5][smallX+1] not in ['O', 'X']:
             tempList.append([smallX, stdY])
