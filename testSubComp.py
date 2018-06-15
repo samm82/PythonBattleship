@@ -13,14 +13,14 @@ class HiddenPrints:
 
 def main():
     atts = getAttempts()
-    #easy   = [test(subComp, 0) for _ in range(atts)]
-    #medium = [test(subComp, 1) for _ in range(atts)]
+    easy   = [test(subComp, 0) for _ in range(atts)]
+    medium = [test(subComp, 1) for _ in range(atts)]
     hard   = [test(subComp, 2) for _ in range(atts)]
-    #eAvg, mAvg, hAvg = sum(easy)/atts, sum(medium)/atts, sum(hard)/atts
-    #print("Easy:   {:5.2f}".format(eAvg))
-    #print("Medium: {:5.2f}".format(mAvg))
-    #print("Hard:   {:5.2f}".format(hAvg))
-    print(hard)
+    eAvg, mAvg, hAvg = sum(easy)/atts, sum(medium)/atts, sum(hard)/atts
+    print("Easy:   {:5.2f}".format(eAvg))
+    print("Medium: {:5.2f}".format(mAvg))
+    print("Hard:   {:5.2f}".format(hAvg))
+    print(len(easy), len(medium), len(hard))
 
 def getAttempts():
     attempts = 0
@@ -36,11 +36,10 @@ def getAttempts():
 
 def test(m, diff):
     c, bc, gL, t, h, tries = initialize(m, diff)
-    print(gL)
-    #with HiddenPrints():
-    while c != 3:  
-        c, bc, gL, t, h = m.compGuess(c, bc, gL, t, h, diff)
-        tries += 1
+    with HiddenPrints():
+        while c != 3:  
+            c, bc, gL, t, h = m.compGuess(c, bc, gL, t, h, diff)
+            tries += 1
     return tries
 
 def initialize(m, diff):
