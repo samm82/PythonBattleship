@@ -25,3 +25,4 @@ A minigame in which you have to find a three-long submarine in a 5x5 grid. This 
 |README.md|This file. Contains information about the repo.|
 |subComp.py|The functions for a game of "Find the Submarine" against the computer.|
 |submarine.py|The functions for a singleplayer game of "Find the Submarine".|
+|testSubComp.py|Contains files for testing the difficulties of subComp|
