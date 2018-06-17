@@ -15,7 +15,10 @@ def play():
 
 def guess(attempts, hits, answer, blank):
     display(blank)
-    print("You have %s attempts left." % attempts)
+    if attempts == 1:
+        print("You have 1 attempt left.")
+    else:
+        print("You have %s attempts left." % attempts)
     if attempts == 10:
         g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
     else:

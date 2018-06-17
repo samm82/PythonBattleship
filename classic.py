@@ -26,7 +26,14 @@ def play():
 def guess(attempts, hits, answer, blank, cL):
     while attempts != 0:
         display(blank)
-        print("You have {0} attempts and {1} ships left.".format(attempts, cL[-1]))
+        if attempts == 1 and (cL[-1] == 1):
+            print("You have 1 attempt and 1 ship left.")
+        elif attempts == 1:
+            print("You have 1 attempt and {0} ships left.".format(cL[-1]))
+        elif cL[-1] == 1:
+            print("You have {0} attempts and 1 ship left.".format(attempts))
+        else:
+            print("You have {0} attempts and {1} ships left.".format(attempts, cL[-1]))
         if attempts == 40:
             g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
         else:
