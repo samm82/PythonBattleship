@@ -11,9 +11,9 @@ def play():
              ['3 ', '.', '.' ,'.', '.', '.'],
              ['4 ', '.', '.' ,'.', '.', '.'],
              ['5 ', '.', '.' ,'.', '.', '.'], []]
-    return size, attempts, hits, answer, blank
+    return size, attempts, hits, answer, blank, [] #empty list for compatibility
 
-def guess(attempts, hits, answer, blank):
+def guess(attempts, hits, answer, blank, cL):
     display(blank)
     if attempts == 1:
         print("You have 1 attempt left.")
@@ -23,17 +23,18 @@ def guess(attempts, hits, answer, blank):
         g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
     else:
         g = input("Enter your guess: ")
-    if g.lower() in ['menu', 'quit', 'back', 'kill', 'no', 'nope', 'exit']:
+    g = "".join(g.split())
+    if (len(g)>0) and g.lower() in ['menu', 'quit', 'back', 'kill', 'no', 'nope', 'exit']:
         attempts = 'menu'
-        return attempts, hits, answer, blank
+        return attempts, hits, answer, blank, cL
     elif (len(g)<2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
         print("\nINVALID GUESS. Try again.\n")
-        guess(attempts, hits, answer, blank)
+        guess(attempts, hits, answer, blank, cL)
     else:
         x, y = guessIdentify(g)
         if blank[y+3][x+1] != '.': # to navigate "filler" text for display to work properly
             print("\nYou already guessed here. Try again.\n")
-            guess(attempts, hits, answer, blank)
+            guess(attempts, hits, answer, blank, cL)
         else:
             blank[y+3][x+1] = answer[x][y]
             if answer[x][y] == "O":
@@ -44,7 +45,7 @@ def guess(attempts, hits, answer, blank):
             else:
                 print("ERROR") #should never run, but just in case
             attempts -= 1
-    return attempts, hits, answer, blank
+    return attempts, hits, answer, blank, cL
     
 
 def guessIdentify(g):
@@ -60,4 +61,3 @@ def guessIdentify(g):
     #else: not needed - default is 0
     guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return guessLocation[0], guessLocation[1]
-

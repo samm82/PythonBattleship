@@ -3,7 +3,7 @@ import answerFull as aF
 import random as r
 
 def play():
-    attempts, hits, ships = 40, 0, 5
+    size, attempts, hits, ships = 10, 4, 0, 5
     answer = aF.fullGen()
     blank = [[],
              ['   A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], [],
@@ -20,33 +20,33 @@ def play():
              []]
     patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk = False, False, False, False, False #initializes for checkBoats
     checkList = [patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk, ships]
-    guess(attempts, hits, answer, blank, checkList)
-    return None
+    return size, attempts, hits, answer, blank, checkList
 
 def guess(attempts, hits, answer, blank, cL):
-    while attempts != 0:
-        display(blank)
-        if attempts == 1 and (cL[-1] == 1):
-            print("You have 1 attempt and 1 ship left.")
-        elif attempts == 1:
-            print("You have 1 attempt and {0} ships left.".format(cL[-1]))
-        elif cL[-1] == 1:
-            print("You have {0} attempts and 1 ship left.".format(attempts))
-        else:
-            print("You have {0} attempts and {1} ships left.".format(attempts, cL[-1]))
-        if attempts == 40:
-            g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
-        else:
-            g = input("Enter your guess: ")
-        if g[0].upper() in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'] and g[1:2] == '10':
-            x, y = guessIdentify(g)
-            print(blank)
-        g = "".join(g.split())
-        if (len(g)<2) or (g[0].upper() not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) or (g[1] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']):
-            print("\nINVALID GUESS. Try again.\n")
-            guess(attempts, hits, answer, blank, cL)
-        else:
-            x, y = guessIdentify(g)
+    display(blank)
+    if attempts == 1 and (cL[-1] == 1):
+        print("You have 1 attempt and 1 ship left.")
+    elif attempts == 1:
+        print("You have 1 attempt and {0} ships left.".format(cL[-1]))
+    elif cL[-1] == 1:
+        print("You have {0} attempts and 1 ship left.".format(attempts))
+    else:
+        print("You have {0} attempts and {1} ships left.".format(attempts, cL[-1]))
+    if attempts == 40:
+        g = input("Enter your guess (eg. D2): ") #variable 'g' to not confuse with guess()
+    else:
+        g = input("Enter your guess: ")
+    g = "".join(g.split())
+    if (len(g)>0) and g.lower() in ['menu', 'quit', 'back', 'kill', 'no', 'nope', 'exit']:
+        attempts = "menu"
+        return attempts, hits, answer, blank, cL
+    elif (len(g)<2) or (g[0].upper() not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) or (g[1:] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']):
+        print("\nINVALID GUESS. Try again.\n")
+        guess(attempts, hits, answer, blank, cL)
+    else:
+        print(g)
+        x, y = guessIdentify(g)
+        print(x, y)
         if blank[y+3][x+1] != '.': # to navigate "filler" text for display to work properly
             print("\nYou already guessed here. Try again.\n")
             guess(attempts, hits, answer, blank, cL)
@@ -61,21 +61,8 @@ def guess(attempts, hits, answer, blank, cL):
             else:
                 print("ERROR") #should never run, but just in case
             attempts -= 1
-        if hits == 17:
-            display(blank)
-            print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-            again()
-    display(blank)
-    print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
-    print("The boats were here:\n")
-    for i in range(10):
-        for j in range(10):
-            if answer[i][j] == "X":
-                blank[j+3][i+1] = answer[i][j]
-            else:
-                continue
-    display(blank)
-    input("Press enter to go back to the menu.")
+    return attempts, hits, answer, blank, cL
+
 
 def checkBoats(boats, guess, cL):
     for i in boats:

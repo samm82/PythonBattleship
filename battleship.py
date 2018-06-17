@@ -13,7 +13,7 @@ def main():
 def menu():
     choice = input("\nWhich gamemode?\n\n[1] Classic\n[2] Find the Submarine\n[3] Exit\n\n> ")
     if choice.lower() in ['1', 'one', 'classic', 'c']:
-        classic.play()
+        playSingle(classic)
         print("\n"*100) #clear screen
         main()
     elif choice.lower() in ['2', 'two', 'submarine', 'sub', 's']:
@@ -73,21 +73,27 @@ def again(m, d):
         main()
     
 def playSingle(m):
-    s, a, h, ans, b = m.play()
+    s, a, h, ans, b, cL = m.play()
     while a != 0:
-        a, h, ans, b = m.guess(a, h, ans, b)
+        a, h, ans, b, cL = m.guess(a, h, ans, b, cL)
         if a == 'menu':
             print("\n"*100) #clear screen
             main()
-        elif h == 3:
-            d.display(b)
-            print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-            againSingle(m)
+        if m == subComp:
+            if h == 3:
+                d.display(b)
+                print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
+                againSingle(m)
+        elif m == classic:
+            if h == 17:
+                d.display(b)
+                print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
+                againSingle(m)
     d.display(b)
     print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
-    print("The boat was here:\n")
-    for i in range(5):
-        for j in range(5):
+    print("The answer:\n") #Better generic statement?
+    for i in range(s):
+        for j in range(s):
             if ans[i][j] == "X":
                 b[j+3][i+1] = ans[i][j]
             else:
