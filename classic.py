@@ -3,7 +3,7 @@ import answerFull as aF
 import random as r
 
 def play():
-    size, attempts, hits, ships = 10, 4, 0, 5
+    size, attempts, hits, ships = 10, 40, 0, 5
     answer = aF.fullGen()
     blank = [[],
              ['   A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], [],
@@ -38,18 +38,15 @@ def guess(attempts, hits, answer, blank, cL):
         g = input("Enter your guess: ")
     g = "".join(g.split())
     if (len(g)>0) and g.lower() in ['menu', 'quit', 'back', 'kill', 'no', 'nope', 'exit']:
-        attempts = "menu"
-        return attempts, hits, answer, blank, cL
+        return "menu"
     elif (len(g)<2) or (g[0].upper() not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) or (g[1:] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']):
         print("\nINVALID GUESS. Try again.\n")
-        guess(attempts, hits, answer, blank, cL)
+        return None
     else:
-        print(g)
         x, y = guessIdentify(g)
-        print(x, y)
         if blank[y+3][x+1] != '.': # to navigate "filler" text for display to work properly
             print("\nYou already guessed here. Try again.\n")
-            guess(attempts, hits, answer, blank, cL)
+            return None
         else:
             blank[y+3][x+1] = answer[x][y]
             if answer[x][y] == "O":
@@ -61,7 +58,7 @@ def guess(attempts, hits, answer, blank, cL):
             else:
                 print("ERROR") #should never run, but just in case
             attempts -= 1
-    return attempts, hits, answer, blank, cL
+    return [attempts, hits, answer, blank, cL]
 
 
 def checkBoats(boats, guess, cL):

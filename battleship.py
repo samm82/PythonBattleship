@@ -41,16 +41,20 @@ def menu():
 def play(m, diff):
     s, p, c, a, bp, bc, gL, t, h = m.play(diff)
     while c != 3:
-        p, a, bp, bc = m.guess(p, a, bp, bc)
-        if p == 'menu':
+        result = m.guess(p, a, bp, bc)
+        if result == None:
+            continue
+        elif result == 'menu':
             print("\n"*100) #clear screen
             main()
-        elif p != 3:
-            c, bc, gL, t, h = m.compGuess(c, bc, gL, t, h, diff)
         else:
-            d.displayBoth(bp, bc)
-            print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-            again(m, diff)
+            [p, a, bp, bc] = result
+            if p != 3:
+                c, bc, gL, t, h = m.compGuess(c, bc, gL, t, h, diff)
+            else:
+                d.displayBoth(bp, bc)
+                print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
+                again(m, diff)
     d.displayBoth(bp, bc)
     print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
     print("The boat was here:\n")
@@ -75,17 +79,15 @@ def again(m, d):
 def playSingle(m):
     s, a, h, ans, b, cL = m.play()
     while a != 0:
-        a, h, ans, b, cL = m.guess(a, h, ans, b, cL)
-        if a == 'menu':
+        result = m.guess(a, h, ans, b, cL)
+        if result == None:
+            continue
+        elif result == 'menu':
             print("\n"*100) #clear screen
             main()
-        if m == subComp:
-            if h == 3:
-                d.display(b)
-                print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-                againSingle(m)
-        elif m == classic:
-            if h == 17:
+        else:
+            [a, h, ans, b, cL] = result
+            if (m == submarine and (h == 3)) or (m == classic and (h==17)):
                 d.display(b)
                 print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
                 againSingle(m)
