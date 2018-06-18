@@ -27,7 +27,7 @@ def guess(attempts, hits, answer, blank, cL):
     if (len(g)>0) and g.lower() in ['menu', 'quit', 'back', 'kill', 'no', 'nope', 'exit']:
         attempts = 'menu'
         return attempts, hits, answer, blank, cL
-    if (len(g)<2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
+    if (len(g)!=2) or g[0].upper() not in ['A', 'B', 'C', 'D', 'E'] or (g[1] not in ['1', '2', '3', '4', '5']):
         print("\nINVALID GUESS. Try again.\n")
         guess(attempts, hits, answer, blank, cL)
     x, y = guessIdentify(g)
