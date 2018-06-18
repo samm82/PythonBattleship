@@ -95,26 +95,26 @@ def checkBoats(boats, guess, cL):
             cL[4] = True
 
 def guessIdentify(g):
-    guessLocation = [0, 9] #default is A10
+    x, y = 0, 9 #default is A10
     if g[0].upper() == 'B':
-        guessLocation[0] = 1
+        x = 1
     elif g[0].upper() == 'C':
-        guessLocation[0] = 2
+        x = 2
     elif g[0].upper() == 'D':
-        guessLocation[0] = 3
+        x = 3
     elif g[0].upper() == 'E':
-        guessLocation[0] = 4
+        x = 4
     elif g[0].upper() == 'F':
-        guessLocation[0] = 5
+        x = 5
     elif g[0].upper() == 'G':
-        guessLocation[0] = 6
+        x = 6
     elif g[0].upper() == 'H':
-        guessLocation[0] = 7
+        x = 7
     elif g[0].upper() == 'I':
-        guessLocation[0] = 8
+        x = 8
     elif g[0].upper() == 'J':
-        guessLocation[0] = 9
+        x = 9
     #else: not needed - default is 0
     if len(g) != 3:
-        guessLocation[1] = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
-    return guessLocation[0], guessLocation[1]
+        y = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
+    return x, y
