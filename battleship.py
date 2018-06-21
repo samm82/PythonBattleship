@@ -3,6 +3,7 @@
 import display as d
 import random as r
 import classic
+import classicComp
 import submarine
 import subComp
 
@@ -13,7 +14,19 @@ def main():
 def menu():
     choice = input("\nWhich gamemode?\n\n[1] Classic\n[2] Find the Submarine\n[3] Exit\n\n> ")
     if choice.lower() in ['1', 'one', 'classic', 'c']:
-        playSingle(classic)
+        style = input("\nSelect computer difficulty:\n\n[1] Easy\n[2] Normal\n[3] Hard\n[4] No Computer\n\n> ")
+        if style.lower() in ['1', 'easy', 'e']:
+            play(classicComp, 0)
+        elif style.lower() in ['2', 'normal', 'n', 'norm']:
+            play(classicComp, 1)
+        elif style.lower() in ['3', 'hard', 'h', 'difficult', 'd', 'diff']:
+            play(classicComp, 2)
+        elif style.lower() in ['4', 'no', 'none', 'single', 'singleplayer']:
+            playSingle(classic)
+        else:
+            print("Invalid input. Try again.")
+            menu()
+        input("Press enter to go back to the menu.")
         print("\n"*100) #clear screen
         main()
     elif choice.lower() in ['2', 'two', 'submarine', 'sub', 's']:
@@ -39,16 +52,25 @@ def menu():
         menu()
 
 def play(m, diff):
-    s, p, c, a, bp, bc, gL, t, h = m.play(diff)
+    if m == submarine:
+        s, p, c, a, bp, bc, gL, t, h = m.play(diff)
+    else:
+        s, p, c, a, bp, bc, gL, t, h, cL = m.play(diff)
     while c != 3:
-        result = m.guess(p, a, bp, bc)
+        if m == submarine:
+            result = m.guess(p, a, bp, bc)
+        else:
+            result = m.guess(p, a, bp, bc, cL)
         if result == None:
             continue
         elif result == 'menu':
             print("\n"*100) #clear screen
             main()
         else:
-            [p, a, bp, bc] = result
+            if m == submarine:
+                [p, a, bp, bc] = result
+            else:
+                [p, a, bp, bc, cL] = result
             if p != 3:
                 c, bc, gL, t, h = m.compGuess(c, bc, gL, t, h, diff)
             else:
