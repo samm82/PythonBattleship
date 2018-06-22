@@ -56,7 +56,7 @@ def play(m, diff):
         s, p, c, a, bp, bc, gL, t, h = m.play(diff)
     else:
         s, p, c, a, bp, bc, gL, t, h, cL = m.play(diff)
-    while c != 3:
+    while (c != 3 and (m == submarine)) or (c != 17 and (m == classicComp)):
         if m == submarine:
             result = m.guess(p, a, bp, bc)
         else:
@@ -71,7 +71,7 @@ def play(m, diff):
                 [p, a, bp, bc] = result
             else:
                 [p, a, bp, bc, cL] = result
-            if p != 3:
+            if (p != 3 and (m == submarine)) or (p != 17 and (m == classicComp)):
                 c, bc, gL, t, h = m.compGuess(c, bc, gL, t, h, diff)
             else:
                 d.displayBoth(bp, bc)

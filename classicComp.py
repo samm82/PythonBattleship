@@ -118,6 +118,30 @@ def guess(p, answer, player, comp, cL):
                 print("ERROR") #should never run, but just in case
     return [p, answer, player, comp, cL]
 
+def compGuess(c, comp, gL, tryHere, hits, diff):
+    if len(hits) >= 2 and (diff == 2):
+        tryHere = genTryFromHits(comp, tryHere, hits)
+    if diff >= 1 and tryHere:
+        gL = [x for x in gL if guessIdentify(x) not in tryHere]
+        g = tryHere.pop(r.randrange(len(tryHere)))
+        x, y = g[0], g[1]
+    else:
+        g = gL.pop(r.randrange(len(gL)))
+        x, y = guessIdentify(g)
+    if comp[y+5][x+1] == ".":
+        print("\nThe computer missed.\n")
+        comp[y+5][x+1] = "O"
+    elif comp[y+5][x+1] == "#":
+        c += 1
+        print("\nThe computer hit your submarine!\n")
+        comp[y+5][x+1] = "X"
+        if diff >= 1:
+            tryHere += genTryHere(comp, x, y)
+        if diff == 2:
+            hits.append([x,y])
+    else:
+        print("ERROR") #should never run, but just in case
+    return c, comp, gL, tryHere, hits
 
 def checkBoats(boats, guess, cL):
     for i in boats:
@@ -173,6 +197,48 @@ def guessIdentify(g):
     if len(g) != 3:
         y = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return x, y
+
+def genTryHere(c, x, y):
+    tryList = []
+    if x+1 < 10:
+        tryList.append([x+1, y])
+    if x-1 >= 0:
+        tryList.append([x-1, y])
+    if y+1 < 10:
+        tryList.append([x, y+1])
+    if y-1 >= 0:
+        tryList.append([x, y-1])
+    for coord in tryList:
+        if c[coord[1]+5][coord[0]+1] in ['O', 'X']:
+            tryList.remove(coord) #optimize?
+    return tryList
+
+def genTryFromHits(comp, tryHere, hits):
+    hits.sort()
+    xHits, yHits = [], []
+    for coord in hits:
+        xHits.append(coord[0])
+        yHits.append(coord[1])
+    tempList = []
+    if xHits[0] == xHits[-1]:
+        stdX = xHits[0]
+        smallY = yHits[0] - 1
+        if smallY >= 0 and comp[smallY+5][stdX+1] not in ['O', 'X']:
+            tempList.append([stdX, smallY])
+        bigY = yHits[-1] + 1
+        if bigY < 10 and comp[bigY+5][stdX+1] not in ['O', 'X']:
+            tempList.append([stdX, bigY])
+    elif yHits[0] == yHits[-1]:
+        stdY = yHits[0]
+        smallX = xHits[0] - 1
+        if smallX >= 0 and comp[stdY+5][smallX+1] not in ['O', 'X']:
+            tempList.append([smallX, stdY])
+        bigX = yHits[-1] + 1
+        if bigX < 10 and comp[stdY+5][bigX+1] not in ['O', 'X']:
+            tempList.append([bigX, stdY])
+    if tempList:
+        tryHere = tempList
+    return tryHere
 
 def halfGL(lst):
     left, right = [], []
