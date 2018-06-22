@@ -139,35 +139,40 @@ def compGuess(c, comp, gL, tryHere, hits, diff):
                 print("The computer hit your patrol boat!")
             else:
                 print("The computer sunk your patrol boat!")
+                tryHere = []
         elif [x, y] in boatList[1]:
             boatList[1].remove([x, y])
             if boatList[1]:
                 print("The computer hit your destroyer!")
             else:
                 print("The computer sunk your destroyer!")
+                tryHere = []
         elif [x, y] in boatList[2]:
             boatList[2].remove([x, y])
             if boatList[2]:
                 print("The computer hit your submarine!")
             else:
                 print("The computer sunk your submarine!")
+                tryHere = []
         elif [x, y] in boatList[3]:
             boatList[3].remove([x, y])
             if boatList[3]:
                 print("The computer hit your battleship!")
             else:
                 print("The computer sunk your battleship!")
+                tryHere = []
         elif [x, y] in boatList[4]:
             boatList[4].remove([x, y])
             if boatList[4]:
                 print("The computer hit your aircraft carrier!")
             else:
                 print("The computer sunk your aircraft carrier!")
+                tryHere = []
         else:
             print("ERROR") # probably should never run, but just in case
         comp[y+5][x+1] = "X"
         if diff >= 1:
-            tryHere += genTryHere(comp, x, y)
+            gL, tryHere = genTryHere(comp, gL, tryHere, x, y)
         if diff == 2:
             hits.append([x,y])
     else:
@@ -229,20 +234,25 @@ def guessIdentify(g):
         y = int(g[1]) - 1 #minus one to convert A1 to [0, 0] etc.
     return x, y
 
-def genTryHere(c, x, y):
+def genTryHere(c, gL, t, x, y):
     tryList = []
     if x+1 < 10:
         tryList.append([x+1, y])
+        gL.remove([x+1, y])
     if x-1 >= 0:
         tryList.append([x-1, y])
+        gL.remove([x-1, y])
     if y+1 < 10:
         tryList.append([x, y+1])
+        gL.remove([x, y+1])
     if y-1 >= 0:
         tryList.append([x, y-1])
+        gL.remove([x, y-1])
     for coord in tryList:
         if c[coord[1]+5][coord[0]+1] in ['O', 'X']:
             tryList.remove(coord) #optimize?
-    return tryList
+    t += tryList
+    return gL, tryList
 
 def genTryFromHits(comp, tryHere, hits):
     hits.sort()
