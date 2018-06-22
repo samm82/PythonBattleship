@@ -26,12 +26,12 @@ def play(diff):
                    ['7 ', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'],
                    ['8 ', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'],
                    ['9 ', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'],
-                   ['10', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'], []]
+                   ['10', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'], [], [[], [], [], [], []]]
     guessList = ["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","D1","D2","D3","D4","D5","D6","D7","D8","D9","D10","E1","E2","E3","E4","E5","E6","E7","E8","E9","E10","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","I1","I2","I3","I4","I5","I6","I7","I8","I9","I10","J1","J2","J3","J4","J5","J6","J7","J8","J9","J10"]
     if diff == 2:
         guessList = halfGL(guessList)
-    d.displayBoth(blankPlayer, blankComp)
-    return pickShip(blankPlayer, blankPlayer, guessList)
+    d.displayBoth(blankPlayer, blankComp[:-1])
+    return pickShip(blankPlayer, blankComp, guessList)
     #size, attempts, hits, answer, blankPlayer, checkList
 
 def pickShip(blankP, blankC, gL):
@@ -48,22 +48,25 @@ def pickShip(blankP, blankC, gL):
     #         end = input("Enter the position of the other end of your %s: " % shipList[ships])
     #         if (len(end)<2) or (end[0].upper() not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) or (end[1:] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']):
     #             print("\nINVALID INPUT. Try again.\n")
+    #         shipLength = int(shipList[ships][-2])
     #         else:
     #             x2, y2 = guessIdentify(end)
-    #             print(abs(x1 - x2) + 1, abs(y1 - y2) + 1, int(shipList[ships][-2]))
-    #             print(abs(x1 - x2) + 1 == int(shipList[ships][-2]))
-    #             print(abs(y1 - y2) + 1 == int(shipList[ships][-2]))
-    #             if abs(x1 - x2) + 1 == int(shipList[ships][-2]) and (y1 == y2):
+    #             print(abs(x1 - x2) + 1, abs(y1 - y2) + 1, shipLength)
+    #             print(abs(x1 - x2) + 1 == shipLength)
+    #             print(abs(y1 - y2) + 1 == shipLength)
+    #             if abs(x1 - x2) + 1 == shipLength) and (y1 == y2):
     #                 small = min([x1, x2]) + 1
     #                 y = y1 + 5
-    #                 for i in range(int(shipList[ships][-2])):
+    #                 for i in range(shipLength):
     #                     blankC[y][small+i] = "#"
+    #                     blankC[-1][ships].append([small+i, y])  ###TO BE DOUBLE-CHECKED!!!
     #                 ships += 1
-    #             elif x1 == x2 and (abs(y1 - y2) + 1 == int(shipList[ships][-2])):
+    #             elif x1 == x2 and (abs(y1 - y2) + 1 == shipLength):
     #                 small = min([y1, y2]) + 5
     #                 x = x1 + 1
-    #                 for i in range(int(shipList[ships][-2])):
+    #                 for i in range(shipLength):
     #                     blankC[small+i][x] = "#"
+    #                     blankC[-1][ships].append([x, small+i])  ###TO BE DOUBLE-CHECKED!!!
     #                 ships += 1
     #             else:
     #                 print("\nINVALID BOAT POSITION. Your {0} is {1} spaces long and cannot be diagonal - try again.\n".format(shipList[ships][:-4], shipList[ships][-2]))
@@ -78,7 +81,8 @@ def pickShip(blankP, blankC, gL):
                    ['7 ', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'],
                    ['8 ', '.', '.' ,'.', '.', '.', '.', '#' ,'#', '.', '.'],
                    ['9 ', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'],
-                   ['10', '#', '#' ,'#', '.', '.', '.', '.' ,'.', '.', '.'], []]
+                   ['10', '#', '#' ,'#', '.', '.', '.', '.' ,'.', '.', '.'], [], 
+                   [[[6, 7], [6, 8]], [[0, 9], [1, 9], [2, 9]], [[3, 3], [3, 4], [3, 5]], [[4, 2], [5, 2], [6, 2], [7, 2]], [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]]]]
                    # ^^^REMOVE^^^
     size, pHits, cHits, t, h, ships = 5, 0, 0, [], [], 0
     answer = aF.fullGen()
@@ -92,7 +96,7 @@ def guess(p, answer, player, comp, cL):
     d.displayBoth(player, comp)
     g = input("Enter your guess (eg. D2) or 'menu' to return to menu: ") #variable 'g' to not confuse with guess()
     if (len(g)>1) and g.lower() in ['menu', 'quit', 'back', 'kill', 'no', 'nope', 'exit']:
-        p = 'menu'
+        return "menu"
     elif (len(g)<2) or (g[0].upper() not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) or (g[1:] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']):
         print("\nINVALID GUESS. Try again.\n")
         return None
@@ -102,11 +106,6 @@ def guess(p, answer, player, comp, cL):
             print("\nYou already guessed here. Try again.\n")
             return None
         else:
-            print(x, y)
-            print(x+1, y+5)
-            print(player[y+5][x+1])
-            d.display(answer)
-            print(answer[x][y])
             player[y+5][x+1] = answer[x][y]
             if answer[x][y] == "O":
                 print("\nMM    MM IIIIII  SSSS   SSSS \nMMM  MMM   II   SS  SS SS  SS\nMMMMMMMM   II    SS     SS   \nMM MM MM   II      SS     SS \nMM    MM   II   SS  SS SS  SS\nMM    MM IIIIII  SSSS   SSSS \n")
@@ -133,7 +132,39 @@ def compGuess(c, comp, gL, tryHere, hits, diff):
         comp[y+5][x+1] = "O"
     elif comp[y+5][x+1] == "#":
         c += 1
-        print("\nThe computer hit your submarine!\n")
+        boatList = comp[-1]
+        if [x, y] in boatList[0]: #FIXME: pull out to function/module?
+            boatList[0].remove([x, y])
+            if boatList[0]:
+                print("The computer hit your patrol boat!")
+            else:
+                print("The computer sunk your patrol boat!")
+        elif [x, y] in boatList[1]:
+            boatList[1].remove([x, y])
+            if boatList[1]:
+                print("The computer hit your destroyer!")
+            else:
+                print("The computer sunk your destroyer!")
+        elif [x, y] in boatList[2]:
+            boatList[2].remove([x, y])
+            if boatList[2]:
+                print("The computer hit your submarine!")
+            else:
+                print("The computer sunk your submarine!")
+        elif [x, y] in boatList[3]:
+            boatList[3].remove([x, y])
+            if boatList[3]:
+                print("The computer hit your battleship!")
+            else:
+                print("The computer sunk your battleship!")
+        elif [x, y] in boatList[4]:
+            boatList[4].remove([x, y])
+            if boatList[4]:
+                print("The computer hit your aircraft carrier!")
+            else:
+                print("The computer sunk your aircraft carrier!")
+        else:
+            print("ERROR") # probably should never run, but just in case
         comp[y+5][x+1] = "X"
         if diff >= 1:
             tryHere += genTryHere(comp, x, y)
