@@ -71,12 +71,19 @@ def play(m, diff):
                 [p, a, bp, bc] = result
             else:
                 [p, a, bp, bc, cL] = result
-            if (p != 3 and (m == submarine)) or (p != 17 and (m == classicComp)):
-                c, bc, gL, t, h = m.compGuess(c, bc, gL, t, h, diff)
-            else:
-                d.displayBoth(bp, bc)
-                print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
-                again(m, diff)
+            invalidGuess = True
+            while invalidGuess:
+                if (p != 3 and (m == submarine)) or (p != 17 and (m == classicComp)):
+                    result = m.compGuess(c, bc, gL, t, h, diff)
+                    if result == None:
+                        continue
+                    else:
+                        c, bc, gL, t, h
+                        invalidGuess = False
+                else:
+                    d.displayBoth(bp, bc)
+                    print("\nYY  YY  OOOO  UU  UU     WW    WW IIIIII NN  NN !!\nYY  YY OO  OO UU  UU     WW    WW   II   NNN NN !!\n YYYY  OO  OO UU  UU     WW WW WW   II   NNNNNN !!\n  YY   OO  OO UU  UU     WWWWWWWW   II   NN NNN !!\n  YY   OO  OO UU  UU     WWW  WWW   II   NN  NN   \n  YY    OOOO   UUUU      WW    WW IIIIII NN  NN !!\n")
+                    again(m, diff)
     d.displayBoth(bp, bc)
     print("\nYY  YY  OOOO  UU  UU     LL      OOOO   SSSS  EEEEEE\nYY  YY OO  OO UU  UU     LL     OO  OO SS  SS EE    \n YYYY  OO  OO UU  UU     LL     OO  OO  SS    EEEE  \n  YY   OO  OO UU  UU     LL     OO  OO    SS  EE    \n  YY   OO  OO UU  UU     LL     OO  OO SS  SS EE    \n  YY    OOOO   UUUU      LLLLLL  OOOO   SSSS  EEEEEE\n")
     print("The boat was here:\n")
