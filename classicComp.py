@@ -29,7 +29,9 @@ def play(diff):
                    ['10', '.', '.' ,'.', '.', '.', '.', '.' ,'.', '.', '.'], [], [[], [], [], [], []]]
     guessList = ["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","D1","D2","D3","D4","D5","D6","D7","D8","D9","D10","E1","E2","E3","E4","E5","E6","E7","E8","E9","E10","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","I1","I2","I3","I4","I5","I6","I7","I8","I9","I10","J1","J2","J3","J4","J5","J6","J7","J8","J9","J10"]
     if diff == 2:
-        guessList = halfGL(guessList)
+        left = ["A1","A3","A5","A7","A9","B2","B4","B6","B8","B10","C1","C3","C5","C7","C9","D2","D4","D6","D8","D10","E1","E3","E5","E7","E9","F2","F4","F6","F8","F10","G1","G3","G5","G7","G9","H2","H4","H6","H8","H10","I1","I3","I5","I7","I9","J2","J4","J6","J8","J10"]
+        right = ["A2","A4","A6","A8","A10","B1","B3","B5","B7","B9","C2","C4","C6","C8","C10","D1","D3","D5","D7","D9","E2","E4","E6","E8","E10","F1","F3","F5","F7","F9","G2","G4","G6","G8","G10","H1","H3","H5","H7","H9","I2","I4","I6","I8","I10","J1","J3","J5","J7","J9"]
+        guessList = r.choice([left, right])
     d.displayBoth(blankPlayer, blankComp[:-1])
     return pickShip(blankPlayer, blankComp, guessList)
     #size, attempts, hits, answer, blankPlayer, checkList
@@ -281,12 +283,3 @@ def genTryFromHits(comp, tryHere, hits):
     if tempList:
         tryHere = tempList
     return tryHere
-
-def halfGL(lst):
-    left, right = [], []
-    for i in range(len(lst)):
-        if i % 2 == 0:
-            left.append(lst[i])
-        else:
-            right.append(lst[i])
-    return r.choice([left, right])
