@@ -78,7 +78,7 @@ def play(m, diff):
                     if result == None:
                         continue
                     else:
-                        c, bc, gL, t, h
+                        c, bc, gL, t, h = result
                         invalidGuess = False
                 else:
                     d.displayBoth(bp, bc)

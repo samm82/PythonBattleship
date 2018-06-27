@@ -84,7 +84,7 @@ def pickShip(blankP, blankC, gL):
                    ['10', '#', '#' ,'#', '.', '.', '.', '.' ,'.', '.', '.'], [], 
                    [[[6, 7], [7, 7]], [[0, 9], [1, 9], [2, 9]], [[3, 3], [3, 4], [3, 5]], [[4, 2], [5, 2], [6, 2], [7, 2]], [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]]]]
                    # ^^^REMOVE^^^
-    size, pHits, cHits, t, h, ships = 5, 0, 0, [], [], 0
+    size, pHits, cHits, t, h, ships = 10, 0, 0, [], [], 0
     answer = aF.fullGen()
     patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk = False, False, False, False, False #initializes for checkBoats
     checkList = [patrolBoatSunk, destroyerSunk, submarineSunk, battleshipSunk, aircraftCarrierSunk, ships]
@@ -121,6 +121,7 @@ def guess(p, answer, player, comp, cL):
     return [p, answer, player, comp, cL]
 
 def compGuess(c, comp, gL, tryHere, hits, diff):
+    print(tryHere)
     if len(hits) >= 2 and (diff == 2):
         tryHere = genTryFromHits(comp, tryHere, hits)
     if diff >= 1 and tryHere:
@@ -146,35 +147,35 @@ def compGuess(c, comp, gL, tryHere, hits, diff):
                 print("The computer hit your patrol boat!")
             else:
                 print("The computer sunk your patrol boat!")
-                tryHere = []
+                tryHere, hits = [], []
         elif [x, y] in boatList[1]:
             boatList[1].remove([x, y])
             if boatList[1]:
                 print("The computer hit your destroyer!")
             else:
                 print("The computer sunk your destroyer!")
-                tryHere = []
+                tryHere, hits = [], []
         elif [x, y] in boatList[2]:
             boatList[2].remove([x, y])
             if boatList[2]:
                 print("The computer hit your submarine!")
             else:
                 print("The computer sunk your submarine!")
-                tryHere = []
+                tryHere, hits = [], []
         elif [x, y] in boatList[3]:
             boatList[3].remove([x, y])
             if boatList[3]:
                 print("The computer hit your battleship!")
             else:
                 print("The computer sunk your battleship!")
-                tryHere = []
+                tryHere, hits = [], []
         elif [x, y] in boatList[4]:
             boatList[4].remove([x, y])
             if boatList[4]:
                 print("The computer hit your aircraft carrier!")
             else:
                 print("The computer sunk your aircraft carrier!")
-                tryHere = []
+                tryHere, hits = [], []
         else:
             print("ERROR") # probably should never run, but just in case
         comp[y+5][x+1] = "X"
