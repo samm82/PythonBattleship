@@ -124,6 +124,7 @@ def guess(p, answer, player, comp, cL):
     return [p, answer, player, comp, cL]
 
 def compGuess(c, comp, gL, tryHere, hits, diff):
+    print(gL) #remove
     if len(hits) >= 2 and (diff == 2):
         tryHere = genTryFromHits(comp, tryHere, hits)
     if diff >= 1 and tryHere:
@@ -143,6 +144,9 @@ def compGuess(c, comp, gL, tryHere, hits, diff):
             hits.append([x,y])
         c += 1
         boatList = comp[-1]
+        print([x, y]) #remove
+        print(boatList) #remove
+        print(boatList[0]) #remove
         if [x, y] in boatList[0]: #FIXME: pull out to function/module?
             boatList[0].remove([x, y])
             if boatList[0]:
@@ -179,10 +183,11 @@ def compGuess(c, comp, gL, tryHere, hits, diff):
                 print("The computer sunk your aircraft carrier!")
                 tryHere, hits = [], []
         else:
-            print("ERROR") # probably should never run, but just in case
+            print("Hit not in boatlist") # probably should never run, but just in case
         comp[y+5][x+1] = "X"
     else:
         return None
+    d.display(comp) #remove
     return c, comp, gL, tryHere, hits
 
 def checkBoats(boats, guess, cL):
