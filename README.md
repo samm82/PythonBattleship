@@ -5,13 +5,17 @@ A simple battleship game in Python.
 The game modes are:
 
 ### Battleship 
-A singleplayer game of Battleship with 40 tries to find the five ships in a 10x10 grid.
+A standard game of Battleship in which you have to find five ships in a 10x10 grid. This game supports the following:
+1. Computer (Easy) - The computer guesses randomly.
+2. Computer (Normal) - The computer spaces around hits.
+3. Computer (Hard) - The computer only initially guesses in a checkerboard pattern and guesses in a line if there are two consecutive hits.
+4. Singleplayer - The player has 40 tries.
 
 ### Find the Submarine
 A minigame in which you have to find a three-long submarine in a 5x5 grid. This game supports the following:
 1. Computer (Easy) - The computer guesses randomly.
 2. Computer (Normal) - The computer spaces around hits.
-3. Computer (Hard) - The computer only guesses in a checkerboard pattern and guess in a line if there are two consecutive hits.
+3. Computer (Hard) - The computer only initially guesses in a checkerboard pattern and guesses in a line if there are two consecutive hits.
 4. Singleplayer - The player has 10 tries.
 
 ## Folder Contents
