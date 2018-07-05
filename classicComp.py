@@ -124,10 +124,7 @@ def guess(p, answer, player, comp, cL):
     return [p, answer, player, comp, cL]
 
 def compGuess(c, comp, gL, tryHere, hits, diff):
-    print("Hits:", hits)
-    print("Try:", tryHere)
     if len(hits) >= 2 and (diff == 2):
-        print("genTryFromHits")
         tryHere = genTryFromHits(comp, tryHere, hits)
     if diff >= 1 and tryHere:
         gL = [x for x in gL if guessIdentify(x) not in tryHere]
@@ -186,8 +183,6 @@ def compGuess(c, comp, gL, tryHere, hits, diff):
         comp[y+5][x+1] = "X"
     else:
         return None
-    print("Hits:", hits)
-    print("Try:", tryHere)
     return c, comp, gL, tryHere, hits
 
 def checkBoats(boats, guess, cL):
@@ -263,35 +258,27 @@ def genTryHere(c, gL, t, x, y):
 
 def genTryFromHits(comp, tryHere, hits):
     hits.sort()
-    print(hits)
     xHits, yHits = [], []
     for coord in hits:
         xHits.append(coord[0])
         yHits.append(coord[1])
-    print(xHits, yHits)
     tempList = []
     if xHits[0] == xHits[-1]:
         stdX = xHits[0]
         smallY = yHits[0] - 1
         if smallY >= 0 and comp[smallY+5][stdX+1] not in ['O', 'X']:
-            print([stdX, smallY])
             tempList.append([stdX, smallY])
         bigY = yHits[-1] + 1
         if bigY < 10 and comp[bigY+5][stdX+1] not in ['O', 'X']:
-            print([stdX, bigY])
             tempList.append([stdX, bigY])
     elif yHits[0] == yHits[-1]:
         stdY = yHits[0]
         smallX = xHits[0] - 1
         if smallX >= 0 and comp[stdY+5][smallX+1] not in ['O', 'X']:
-            print([smallX, stdY])
             tempList.append([smallX, stdY])
-        bigX = yHits[-1] + 1
+        bigX = xHits[-1] + 1
         if bigX < 10 and comp[stdY+5][bigX+1] not in ['O', 'X']:
-            print([bigX, stdY])
             tempList.append([bigX, stdY])
-    print(tempList)
     if tempList:
         tryHere = tempList
-    print(tryHere)
     return tryHere
