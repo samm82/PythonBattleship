@@ -141,43 +141,20 @@ def compGuess(c, comp, gL, tryHere, hits, diff):
         c += 1
         boatList = comp[-1]
         print(boatList)
-        if [x, y] in boatList[0]: #FIXME: pull out to function/module?
-            boatList[0].remove([x, y])
-            if boatList[0]:
-                print("The computer hit your patrol boat!")
-            else:
-                print("The computer sunk your patrol boat!")
-                tryHere, hits = [], []
-        elif [x, y] in boatList[1]:
-            boatList[1].remove([x, y])
-            if boatList[1]:
-                print("The computer hit your destroyer!")
-            else:
-                print("The computer sunk your destroyer!")
-                tryHere, hits = [], []
-        elif [x, y] in boatList[2]:
-            boatList[2].remove([x, y])
-            if boatList[2]:
-                print("The computer hit your submarine!")
-            else:
-                print("The computer sunk your submarine!")
-                tryHere, hits = [], []
-        elif [x, y] in boatList[3]:
-            boatList[3].remove([x, y])
-            if boatList[3]:
-                print("The computer hit your battleship!")
-            else:
-                print("The computer sunk your battleship!")
-                tryHere, hits = [], []
-        elif [x, y] in boatList[4]:
-            boatList[4].remove([x, y])
-            if boatList[4]:
-                print("The computer hit your aircraft carrier!")
-            else:
-                print("The computer sunk your aircraft carrier!")
-                tryHere, hits = [], []
-        else:
-            print("Hit not in boatlist") # probably should never run, but just in case
+        boatNames = ["patrol boat", "destroyer", "submarine", "battleship", "aircraft carrier"]
+        for i in range(6):
+            if i == 6:
+                print("Hit not in boatlist") # probably should never run, but just in case
+                break
+            elif [x, y] in boatList[i]:
+                boatList[i].remove([x, y])
+                if boatList[i]:
+                    print("The computer hit your {0}!".format(boatNames[i]))
+                    break
+                else:
+                    print("The computer sunk your {0}!".format(boatNames[i]))
+                    tryHere, hits = [], []
+                    break            
         comp[y+5][x+1] = "X"
     else:
         return None
