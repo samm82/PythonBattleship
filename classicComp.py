@@ -153,11 +153,14 @@ def compGuess(c, comp, gL, tryHere, hits, diff):
                     break
                 else:
                     print("The computer sunk your {0}!".format(boatNames[i]))
+                    # insert function to remove only the boat's parts from the list
                     tryHere, hits = [], []
                     break            
         comp[y+5][x+1] = "X"
     else:
+        print(hits) # remove
         return None
+    print(hits) # remove
     return c, comp, gL, tryHere, hits
 
 def checkBoats(boats, guess, cL):
