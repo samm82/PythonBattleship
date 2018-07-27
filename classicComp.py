@@ -153,8 +153,8 @@ def compGuess(c, comp, gL, tryHere, hits, diff):
                     break
                 else:
                     print("The computer sunk your {0}!".format(boatNames[i]))
-                    # insert function to remove only the boat's parts from the list
-                    tryHere, hits = [], []
+                    hits = removeHitsFromSunk(i, hits)
+                    tryHere = []
                     break            
         comp[y+5][x+1] = "X"
     else:
@@ -260,3 +260,91 @@ def genTryFromHits(comp, tryHere, hits):
     if tempList:
         tryHere = tempList
     return tryHere
+
+def removeHitsFromSunk(i, hits):
+    boatLengths = [2, 3, 3, 4, 5]
+    tempList = []
+
+    mostRecent = hits[-1]
+    print(mostRecent)
+    del hits[-1]
+    hits.sort()
+    print(hits)
+
+    # splits into x and y coords
+    xHits, yHits = [], []
+    for coord in hits:
+        xHits.append(coord[0])
+        yHits.append(coord[1])
+
+    x = mostRecent[0]
+    y = mostRecent[1]
+
+    bigX   = mostRecent[0] + boatLengths[i] - 1
+    smallX = mostRecent[0] - boatLengths[i] + 1
+    stdY   = mostRecent[1]
+
+    bigY   = mostRecent[1] + boatLengths[i] - 1
+    smallY = mostRecent[1] - boatLengths[i] + 1
+    stdX   = mostRecent[0]
+
+    # +x direction
+    if bigX <= 9:
+        print("bigX")
+        boatList = []
+        for j in range(0, boatLengths[i]):
+            print([x+j, stdX])
+            boatList.append([x+j, stdY])
+        print(boatList)
+        print(hits)
+        if all(coord in boatList for coord in hits):
+            tempList.append(boatList)
+        print(tempList)
+
+    # -x direction
+    if smallX >= 0:
+        print("smallX")
+        boatList = []
+        for j in range(0, boatLengths[i]):
+            print([x-j, stdX])
+            boatList.append([x-j, stdY])
+        print(boatList)
+        print(hits)
+        if all(coord in boatList for coord in hits):
+            tempList.append(boatList)
+        print(tempList)
+
+    # +y direction
+    if bigY <= 9:
+        print("bigY")
+        boatList = []
+        for j in range(0, boatLengths[i]):
+            print([stdX, y+j])
+            boatList.append([stdX, y+j])
+        print(boatList)
+        print(hits)
+        if all(coord in boatList for coord in hits):
+            tempList.append(boatList)
+        print(tempList)
+
+    # -y direction
+    if smallY >= 0:
+        print("smallY")
+        boatList = []
+        for j in range(0, boatLengths[i]):
+            print([stdX, y-j])
+            boatList.append([stdX, y-j])
+        print(boatList)
+        print(hits)
+        if all(coord in boatList for coord in hits):
+            tempList.append(boatList)
+        print(tempList)
+
+    if len(tempList) == 1:
+        hits = [i for i in hits if i not in tempList[0]] 
+    else:
+        print(hits)
+        print(tempList)
+        raise SystemExit("Not fully implemented yet.")
+
+    return hits
